@@ -1,0 +1,18 @@
+{
+  "name": "visual",
+  "version": "1.0.0",
+  "description": "PowerBi custom visual for bing map",
+  "dependencies": {
+    "@types/bingmaps": "0.0.1",
+    "@types/d3": "^3.5.41",
+    "d3": "^3.5.5",
+    "powerbi-visuals-utils-dataviewutils": "1.2.0"
+  },
+  "scripts": {
+    "watch": "concurrent \"npm run tsc\" \"npm run pbi\"",
+    "tsc": "tsc -w",
+    "pbi": "pbiviz start"
+},
+"author": "MobiTeam",
+"license": "ISC"
+}

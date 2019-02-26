@@ -1,0 +1,103 @@
+{
+    "dataRoles": [   
+        {
+            "displayName": "OD Category",
+            "name": "category",
+            "kind": "Grouping"
+        },  
+        {
+            "displayName": "Origin Lat",
+            "name": "OLatitude",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Origin Long",
+            "name": "OLongitude",
+            "kind": "Measure"
+        },     
+        {
+            "displayName": "Destination Lat",
+            "name": "DLatitude",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Destination Long",
+            "name": "DLongitude",
+            "kind": "Measure"
+        },  
+        {
+            "displayName": "Size",
+            "name": "Size",
+            "kind": "Measure"
+        },
+        {
+            "displayName": "Color",
+            "description": "(Optional) Categorical values to decide route colors",
+            "name": "Color",
+            "kind": "Measure"
+        }
+    ],
+    "drilldown": {
+        "roles": [
+            "category"
+        ]
+    },
+    "objects":{},
+    "dataViewMappings": [
+        {
+            "conditions": [
+                { "category": { "max": 1 } }
+            ],
+            "categorical": {
+                "categories": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "category"
+                            }
+                        }
+                    ],
+                    "dataReductionAlgorithm": {
+                        "sample": {
+                            "count": 20000
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "OLatitude"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "OLongitude"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "DLatitude"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "DLongitude"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "Size"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "Color"
+                            }
+                        }   
+                    ]
+                }
+            }
+        }  
+    ]
+}
