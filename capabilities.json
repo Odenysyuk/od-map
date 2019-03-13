@@ -1,103 +1,399 @@
 {
-    "dataRoles": [   
+    "dataRoles": [
         {
             "displayName": "OD Category",
-            "name": "category",
-            "kind": "Grouping"
-        },  
-        {
-            "displayName": "Origin Lat",
-            "name": "OLatitude",
-            "kind": "Measure"
+            "name": "Category",
+            "kind": "GroupingOrMeasure"
         },
         {
-            "displayName": "Origin Long",
-            "name": "OLongitude",
-            "kind": "Measure"
-        },     
-        {
-            "displayName": "Destination Lat",
-            "name": "DLatitude",
-            "kind": "Measure"
+            "displayName": "Linestring",
+            "description": "Linestring",
+            "name": "Linestring",
+            "kind": "GroupingOrMeasure"
         },
         {
-            "displayName": "Destination Long",
-            "name": "DLongitude",
-            "kind": "Measure"
-        },  
-        {
-            "displayName": "Size",
-            "name": "Size",
-            "kind": "Measure"
+            "displayName": "Line size",
+            "name": "LineSize",
+            "kind": "GroupingOrMeasure"
         },
         {
-            "displayName": "Color",
-            "description": "(Optional) Categorical values to decide route colors",
-            "name": "Color",
-            "kind": "Measure"
+            "displayName": "Line color",
+            "description": "Color can be HEX code or number of data color. If Color is hex code, color of route will be disply of this code. Another way route will be display of data colot conditions.",
+            "name": "LineColor",
+            "kind": "GroupingOrMeasure"
         }
     ],
-    "drilldown": {
-        "roles": [
-            "category"
-        ]
+    "objects": {
+        "category": {
+            "displayName": "OD Category ",
+            "properties": {
+                "show": {
+                    "displayName": "Turn on/off",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontType": {
+                    "displayName": "Font Type",
+                    "description": "Select font type",
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "Default",
+                                "description": "helvetica, arial, sans-serif",
+                                "value": "helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Arial",
+                                "value": "Arial"
+                            },
+                            {
+                                "displayName": "Arial Black",
+                                "value": "\"Arial Black\""
+                            },
+                            {
+                                "displayName": "Arial Unicode MS",
+                                "value": "\"Arial Unicode MS\""
+                            },
+                            {
+                                "displayName": "Calibri",
+                                "value": "Calibri"
+                            },
+                            {
+                                "displayName": "Cambria",
+                                "value": "Cambria"
+                            },
+                            {
+                                "displayName": "Cambria Math",
+                                "value": "\"Cambria Math\""
+                            },
+                            {
+                                "displayName": "Candara",
+                                "value": "Candara"
+                            },
+                            {
+                                "displayName": "Comic Sans MS",
+                                "value": "\"Comic Sans MS\""
+                            },
+                            {
+                                "displayName": "Consolas",
+                                "value": "Consolas"
+                            },
+                            {
+                                "displayName": "Constantia",
+                                "value": "Constantia"
+                            },
+                            {
+                                "displayName": "Corbel",
+                                "value": "Corbel"
+                            },
+                            {
+                                "displayName": "Courier New",
+                                "value": "\"Courier New\""
+                            },
+                            {
+                                "displayName": "Georgia",
+                                "value": "Georgia"
+                            },
+                            {
+                                "displayName": "Lucida Sans Unicode",
+                                "value": "\"Lucida Sans Unicode\""
+                            },
+                            {
+                                "displayName": "Segoe (Bold)",
+                                "value": "\"Segoe UI Bold\", wf_segoe-ui_bold, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Segoe UI",
+                                "value": "\"Segoe UI\", wf_segoe-ui_normal, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Segoe UI Light",
+                                "value": "\"Segoe UI Light\", wf_segoe-ui_bold, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Symbol",
+                                "value": "Symbol"
+                            },
+                            {
+                                "displayName": "Tahoma",
+                                "value": "Tahoma"
+                            },
+                            {
+                                "displayName": "Times New Roman",
+                                "value": "\"Times New Roman\""
+                            },
+                            {
+                                "displayName": "Trebuchet MS",
+                                "value": "\"Trebuchet MS\""
+                            },
+                            {
+                                "displayName": "Verdana",
+                                "value": "Verdana"
+                            },
+                            {
+                                "displayName": "Wingdings",
+                                "value": "Wingdings"
+                            }
+                        ]
+                    }
+                },
+                "fontSize": {
+                    "displayName": "Font Size",
+                    "description": "Select font size",
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "fontColor": {
+                    "displayName": "Font Color",
+                    "description": "Select font color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "textAlignment": {
+                    "displayName": "Category Label Alignment",
+                    "description": "Select Category Label Alignment Left/Middle/Right",
+                    "type": {
+                        "formatting": {
+                            "alignment": true
+                        }
+                    }
+                }
+            }
+        },
+        "mapLayers": {
+            "displayName": "Background Layers",
+            "properties": {
+                "type": {
+                    "displayName": "Map type",
+                    "description": "Select map type",
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "Color",
+                                "value": "road"
+                            },
+                            {
+                                "displayName": "Light",
+                                "value": "canvasLight"
+                            },
+                            {
+                                "displayName": "Gray",
+                                "value": "grayscale"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "polyline": {
+            "displayName": "Polyline",
+            "properties": {
+                "shirtDirection": {
+                    "displayName": "Shift Direction Right/Left Side",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "shirtDegree": {
+                    "displayName": "Shift Degree",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "minColor": {
+                    "displayName": "Minimum Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "centerColor": {
+                    "displayName": "Center Color ",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "maxColor": {
+                    "displayName": "Maximum Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "colorMinValue": {
+                    "displayName": "Minimum Size",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "colorMaxValue": {
+                    "displayName": "Maximum Size",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "transparency": {
+                    "displayName": "Line Opacity",
+                    "description": "Select polyline opacity",
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "node": {
+            "displayName": "Node",
+            "properties": {
+                "show": {
+                    "displayName": "Turn on/off",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "minColor": {
+                    "displayName": "Minimum Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "centerColor": {
+                    "displayName": "Center Color ",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "maxColor": {
+                    "displayName": "Maximum Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "transparency": {
+                    "displayName": "Line Opacity",
+                    "description": "Select polyline opacity",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "showNodeLine": {
+                    "displayName": "Show Node Line ",
+                    "type": {
+                        "bool": true
+                    }
+                }
+            }
+        },
+        "oridinNode": {
+            "displayName": "Origin Node None/Circle",
+            "properties": {
+                "show": {
+                    "displayName": "Turn on/off",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "minValue": {
+                    "displayName": "Minimum Origin Node Size",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "maxValue": {
+                    "displayName": "Maximum Origin Node Size",
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
+        "destinationNode": {
+            "displayName": "Destination Node Fixed/Changing Size ",
+            "properties": {
+                "show": {
+                    "displayName": "Turn on/off",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "minValue": {
+                    "displayName": "Minimum Destination Node Size",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "maxValue": {
+                    "displayName": "Maximum Destination Node Size",
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        }       
     },
-    "objects":{},
     "dataViewMappings": [
         {
-            "conditions": [
-                { "category": { "max": 1 } }
-            ],
-            "categorical": {
-                "categories": {
+            "table": {
+                "rows": {
                     "select": [
                         {
-                            "bind": {
-                                "to": "category"
+                            "for": {
+                                "in": "Category"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Linestring"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "LineSize"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "LineColor"
                             }
                         }
                     ],
                     "dataReductionAlgorithm": {
                         "sample": {
-                            "count": 20000
+                            "count": 2000
                         }
                     }
-                },
-                "values": {
-                    "select": [
-                        {
-                            "bind": {
-                                "to": "OLatitude"
-                            }
-                        },
-                        {
-                            "bind": {
-                                "to": "OLongitude"
-                            }
-                        },
-                        {
-                            "bind": {
-                                "to": "DLatitude"
-                            }
-                        },
-                        {
-                            "bind": {
-                                "to": "DLongitude"
-                            }
-                        },
-                        {
-                            "bind": {
-                                "to": "Size"
-                            }
-                        },
-                        {
-                            "bind": {
-                                "to": "Color"
-                            }
-                        }   
-                    ]
                 }
             }
-        }  
+        }
     ]
 }

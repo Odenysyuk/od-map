@@ -28,10 +28,58 @@ module powerbi.extensibility.visual {
     "use strict";
     import DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
 
-    export class GlobeMapSettings extends DataViewObjectsParser {
-        public dataPoint: DataPointSettings = new DataPointSettings();
+    export class PolylineSettings{        
+        public shirtDirection: boolean = false;
+        public shirtDegree: number = 0;
+        public minColor: string = "00FF46";
+        public centerColor: string = "FFCA00";
+        public maxColor: string = "FF1912";
+        public colorMinValue: number = 0;
+        public colorMaxValue: number = 100;
+        public transparency: number = 0;
     }
 
-    export class DataPointSettings {
+    export class CategorySettings{
+        public show: boolean = false;
+        public fontType: string = "helvetica, arial, sans-serif";
+        public fontSize: number = 15;
+        public fontColor: string = "FF1912";
+        public textAlignment: string = "center";
+    }
+
+    export class MapLayerSettings{
+        public type: string = "Light";
+
+    }
+    export class PolygonSettings{
+        public show: boolean = false;
+        public transparency: number = 0;
+        public showline: boolean = false;
+        public colorMax: string = "red";
+    }
+
+    export class NodeSettings{
+        public show: boolean = false;
+        public minColor: string = "00FF46";
+        public centerColor: string = "FFCA00";
+        public maxColor: string = "FF1912";
+        public transparency: number = 0;
+        public showNodeLine: boolean = false;
+    }
+
+    export class NodeSizeSettings{
+        public show: boolean = false;
+        public minValue: number = 0;
+        public maxValue: number = 20;
+    }
+
+    export class VisualSettings extends DataViewObjectsParser {
+       public category: CategorySettings = new CategorySettings();
+       public mapLayers: MapLayerSettings = new MapLayerSettings();s
+    //    public polygon: PolygonSettings = new PolygonSettings();
+       public polyline: PolylineSettings = new PolylineSettings();
+       public node: NodeSettings = new NodeSettings();
+       public oridinNode: NodeSizeSettings = new NodeSizeSettings();
+       public destinationNode: NodeSizeSettings = new NodeSizeSettings();
     }
 }
