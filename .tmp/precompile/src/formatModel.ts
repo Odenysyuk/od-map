@@ -1,13 +1,15 @@
-interface LineColoringFormat {
-    // shirtDirection: boolean;
-    // shirtDegree: number; 
+
+interface LineFormat  extends ColoringFormat { 
+    transparency: number;
+}
+
+interface ColoringFormat { 
     minColor: string;
     centerColor: string;
     maxColor: string;
+    gradient: boolean;
     colorMinValue: number;
     colorMaxValue: number;
-    gradient: boolean;
-    transparency: number;
 }
 
 interface TextLabelFormat {
@@ -20,14 +22,13 @@ interface TextLabelFormat {
 
 interface MapLayerFormat {
     type: string;
-
 }
 
 interface PolygonFormat {
     show: boolean;
-    transparency: number;
     showline: boolean;
     color: string;
+    transparency: number;
 }
 
 interface NodeFormat {    
@@ -43,14 +44,15 @@ interface NodeSizeFormat {
 }
 
 interface VisualFormat {
-    lineColoring: LineColoringFormat;
     category: TextLabelFormat;
     mapLayers: MapLayerFormat;
+    lineColoring: LineFormat;
     node: NodeFormat;
     oridinNode: NodeSizeFormat;
     destinationNode: NodeSizeFormat;
     polygon: PolygonFormat;
     polygonLabel: TextLabelFormat;
+    polygonColoring: ColoringFormat;
     dataLabel: TextLabelFormat;
 } 
 

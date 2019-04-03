@@ -33,6 +33,12 @@
             "kind": "GroupingOrMeasure"
         },
         {
+            "displayName": "Polygon color",
+            "description": "Color can be HEX code or number of data color. If Color is hex code, color of route will be disply of this code. Another way route will be display of data colot conditions.",
+            "name": "PolygonColor",
+            "kind": "GroupingOrMeasure"
+        },
+        {
             "displayName": "Tooltip",
             "name": "Tooltip",
             "kind": "GroupingOrMeasure"
@@ -347,28 +353,28 @@
                 "show": {
                     "displayName": "Turn on/off",
                     "type": {"bool": true}
-                },      
-                "transparency":{
-                    "displayName": "Opacity",
-                    "description": "Select polygon opacity",                    
-                    "type": {
-                        "numeric": true
-                    }
-                },
+                },   
                 "showline":{
-                    "displayName": "Show polygon line",
+                    "displayName": "Show line",
                     "type": {
                         "bool": true
                     }
                 },
                 "color":{
-                    "displayName": "Polygon Color",
+                    "displayName": "Default Color",
                     "type": {
                         "fill": {
                             "solid": {
                                 "color":true
                             }
                         }
+                    }
+                },
+                "transparency": {
+                    "displayName": "Opacity",
+                    "description": "Select polygon opacity",
+                    "type": {
+                        "numeric": true
                     }
                 }
             }
@@ -510,6 +516,59 @@
                         "formatting": {
                             "alignment": true
                         }
+                    }
+                }
+            }
+        },
+        "polygonColoring": {
+            "displayName": "Polygon Coloring",
+            "properties": {      
+                "minColor": {
+                    "displayName": "Minimum Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "centerColor": {
+                    "displayName": "Center Color ",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "maxColor": {
+                    "displayName": "Maximum Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "gradient":{
+                    "displayName": "Gradient",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "colorMinValue": {
+                    "displayName": "Minimum Value",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "colorMaxValue": {
+                    "displayName": "Maximum Value",
+                    "type": {
+                        "numeric": true
                     }
                 }
             }

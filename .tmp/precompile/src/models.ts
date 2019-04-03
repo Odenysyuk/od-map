@@ -5,6 +5,7 @@ class MapView {
     public LineColor: string = "";
     public PolygonCategory: DataLabel;
     public Polygon: string = "";
+    public PolygonColor: string = "";
     public Tooltip: DataLabel;
     public DataLabel: DataLabel;
 }

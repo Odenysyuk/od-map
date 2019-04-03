@@ -575,11 +575,12 @@ var MapController = (function () {
         this._div = div;
         this._format = format;
         this._data = data;
-        this._colorGeneration = new LineColoringGeneration(format.lineColoring);
-        this._polylineService = new PolylineService(this._colorGeneration);
-        this._nodeService = new NodeService(this._colorGeneration);
+        this._polylineColorGeneration = new ColoringGeneration(format.lineColoring);
+        this._polygonColorGeneration = new ColoringGeneration(format.polygonColoring);
+        this._polylineService = new PolylineService(this._polylineColorGeneration);
+        this._nodeService = new NodeService(this._polylineColorGeneration);
         this._titleService = new TitleSevice();
-        this._polygonService = new PolygonService();
+        this._polygonService = new PolygonService(this._polygonColorGeneration);
         loadMap = function () {
             _this._remap();
             _this._then && _this._then(_this._map);
@@ -588,6 +589,17 @@ var MapController = (function () {
             _this.drawMap(data, format);
         };
     }
+    MapController.prototype.drawMap = function (data, format) {
+        var _this = this;
+        if (Microsoft.Maps.WellKnownText) {
+            return this.reDrawMap(data, format);
+        }
+        else {
+            Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', function () {
+                return _this.reDrawMap(data, format);
+            });
+        }
+    };
     MapController.prototype._remap = function () {
         var setting = this.getMapParameter(this._map, this._div, this._format);
         this._map = new Microsoft.Maps.Map(this._div, setting);
@@ -680,17 +692,6 @@ var MapController = (function () {
         }
         return level;
     };
-    MapController.prototype.drawMap = function (data, format) {
-        var _this = this;
-        if (Microsoft.Maps.WellKnownText) {
-            return this.reDrawMap(data, format);
-        }
-        else {
-            Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', function () {
-                return _this.reDrawMap(data, format);
-            });
-        }
-    };
     MapController.prototype.restyleMap = function (fm) {
         return __awaiter(this, void 0, void 0, function () {
             var mapTypeId;
@@ -709,10 +710,7 @@ var MapController = (function () {
                 switch (_a.label) {
                     case 0:
                         this.resetMap();
-                        this._colorGeneration.setColorColumn(data);
-                        this._colorGeneration.setlineColoringFormat(format.lineColoring);
-                        this._format = format;
-                        this._data = data;
+                        this.setDefaultData(data, format);
                         return [4 /*yield*/, Promise.all([
                                 this.restyleMap(format.mapLayers),
                                 this.drawPolylineData(data, format),
@@ -727,6 +725,14 @@ var MapController = (function () {
                 }
             });
         });
+    };
+    MapController.prototype.setDefaultData = function (data, format) {
+        this._polylineColorGeneration.setColorColumn(data, ColumnView.LineColor);
+        this._polylineColorGeneration.setColoringFormat(format.lineColoring);
+        this._polygonColorGeneration.setColorColumn(data, ColumnView.PolygonColor);
+        this._polygonColorGeneration.setColoringFormat(format.polygonColoring);
+        this._format = format;
+        this._data = data;
     };
     MapController.prototype.drawPolygonData = function (format, data) {
         return __awaiter(this, void 0, void 0, function () {
@@ -884,42 +890,42 @@ var RgbColor = (function () {
     };
     return RgbColor;
 }());
-var LineColoringGeneration = (function () {
-    function LineColoringGeneration(colorGenerator) {
+var ColoringGeneration = (function () {
+    function ColoringGeneration(colorGenerator) {
         this.colorValues = [];
         this.minColorValues = 0;
         this.maxColorValues = 0;
-        this.lineColoringFormat = colorGenerator;
+        this.coloringFormat = colorGenerator;
     }
-    LineColoringGeneration.prototype.setlineColoringFormat = function (format) {
-        this.lineColoringFormat = format;
+    ColoringGeneration.prototype.setColoringFormat = function (format) {
+        this.coloringFormat = format;
     };
-    LineColoringGeneration.prototype.setColorColumn = function (modelView) {
-        this.colorValues = modelView.map(function (x) { return Number(x.LineColor); }).filter(function (x) { return !isNaN(x); });
+    ColoringGeneration.prototype.setColorColumn = function (modelView, propertyName) {
+        this.colorValues = modelView.map(function (x) { return Number(x[propertyName]); }).filter(function (x) { return !isNaN(x); });
         this.minColorValues = Math.min.apply(Math, this.colorValues);
         this.maxColorValues = Math.max.apply(Math, this.colorValues);
     };
-    LineColoringGeneration.prototype.getColor = function (colorValue, transparency) {
+    ColoringGeneration.prototype.getColor = function (colorValue, transparency) {
         if (transparency === void 0) { transparency = 100; }
         var colorNumber = Number(colorValue);
         if (isNaN(colorNumber)) {
             var colorHex = RgbColor.hexToRgb(colorValue, transparency / 100);
             return colorHex.toString();
         }
-        if (this.lineColoringFormat.gradient) {
+        if (this.coloringFormat.gradient) {
             return this.getGradientColor(colorNumber, transparency / 100);
         }
         return this.getNearestColor(colorNumber, transparency / 100);
     };
-    LineColoringGeneration.prototype.getGradientColor = function (colorNumber, transparency) {
-        var colorMin = RgbColor.hexToRgb(this.lineColoringFormat.minColor, transparency);
+    ColoringGeneration.prototype.getGradientColor = function (colorNumber, transparency) {
+        var colorMin = RgbColor.hexToRgb(this.coloringFormat.minColor, transparency);
         if (this.minColorValues >= this.maxColorValues) {
             return colorMin.toString();
         }
         var center = (this.minColorValues + this.maxColorValues) / 2;
-        var colorMin = RgbColor.hexToRgb(this.lineColoringFormat.minColor, 1);
-        var colorMiddle = RgbColor.hexToRgb(this.lineColoringFormat.centerColor, 1);
-        var colorMax = RgbColor.hexToRgb(this.lineColoringFormat.maxColor, 1);
+        var colorMin = RgbColor.hexToRgb(this.coloringFormat.minColor, 1);
+        var colorMiddle = RgbColor.hexToRgb(this.coloringFormat.centerColor, 1);
+        var colorMax = RgbColor.hexToRgb(this.coloringFormat.maxColor, 1);
         if (colorNumber <= center) {
             var colorW = this.pickHex(colorMin, colorMiddle, 1 - colorNumber / center, transparency);
             return colorW.toString();
@@ -929,26 +935,26 @@ var LineColoringGeneration = (function () {
             return colorW.toString();
         }
     };
-    LineColoringGeneration.prototype.getNearestColor = function (colorNumber, transparency) {
-        if (colorNumber < this.lineColoringFormat.colorMinValue) {
-            return RgbColor.hexToRgb(this.lineColoringFormat.minColor, transparency).toString();
+    ColoringGeneration.prototype.getNearestColor = function (colorNumber, transparency) {
+        if (colorNumber < this.coloringFormat.colorMinValue) {
+            return RgbColor.hexToRgb(this.coloringFormat.minColor, transparency).toString();
             ;
         }
-        else if (colorNumber < this.lineColoringFormat.colorMaxValue) {
-            return RgbColor.hexToRgb(this.lineColoringFormat.centerColor, transparency).toString();
+        else if (colorNumber < this.coloringFormat.colorMaxValue) {
+            return RgbColor.hexToRgb(this.coloringFormat.centerColor, transparency).toString();
             ;
         }
-        return RgbColor.hexToRgb(this.lineColoringFormat.maxColor, transparency).toString();
+        return RgbColor.hexToRgb(this.coloringFormat.maxColor, transparency).toString();
         ;
     };
-    LineColoringGeneration.prototype.pickHex = function (color1, color2, weight, opacity) {
+    ColoringGeneration.prototype.pickHex = function (color1, color2, weight, opacity) {
         var p = weight;
         var w = p * 2 - 1;
         var w1 = (w / 1 + 1) / 2;
         var w2 = 1 - w1;
         return new RgbColor(Math.round(color1.Red * w1 + color2.Red * w2), Math.round(color1.Green * w1 + color2.Green * w2), Math.round(color1.Blue * w1 + color2.Blue * w2), opacity);
     };
-    return LineColoringGeneration;
+    return ColoringGeneration;
 }());
 var PolylineService = (function () {
     function PolylineService(colorGeneration) {
@@ -961,6 +967,7 @@ var PolylineService = (function () {
         return data.filter(function (x) { return x.Linestring; }).map(function (item) { return _this.createPolyline(item, format); });
     };
     PolylineService.prototype.createPolyline = function (dataView, format) {
+        debugger;
         var polyline = Microsoft.Maps.WellKnownText.read(dataView.Linestring, {
             polylineOptions: {
                 strokeColor: this.colorGeneration.getColor(dataView.LineColor || this._lineColorDefault, format.transparency),
@@ -1025,6 +1032,7 @@ var NodeService = (function () {
         });
     };
     NodeService.prototype.getNodeSize = function (nodeSize, sizeFormat) {
+        debugger;
         var svgSize = nodeSize || this.nodeSizeDefault;
         if (!sizeFormat.changedSize) {
             return svgSize;
@@ -1130,25 +1138,25 @@ var TitleSevice = (function () {
     return TitleSevice;
 }());
 var PolygonService = (function () {
-    function PolygonService() {
-        this._lineColorDefault = "#0700FF";
+    function PolygonService(colorGeneration) {
+        this.colorGeneration = colorGeneration;
         this._strokeThicknessDefault = 2;
     }
     PolygonService.prototype.draw = function (data, format) {
-        var colorPolygon = format.color || this._lineColorDefault;
-        var colorPolygonRgb = RgbColor.hexToRgb(colorPolygon, format.transparency / 100).toString();
-        var strokeColor = RgbColor.hexToRgb(colorPolygon, 1).toString();
+        var _this = this;
         var strokeThickness = format.showline ? this._strokeThicknessDefault : 0;
-        return data.filter(function (x) { return x.Polygon.length !== 0; }).map(function (item) {
-            var polygon = Microsoft.Maps.WellKnownText.read(item.Polygon, {
-                polygonOptions: {
-                    strokeColor: strokeColor,
-                    strokeThickness: strokeThickness,
-                    fillColor: colorPolygonRgb
-                }
-            });
-            return { data: item, polygon: polygon };
+        return data.filter(function (x) { return x.Polygon; }).map(function (item) { return _this.createPolygon(item, format, strokeThickness); });
+    };
+    PolygonService.prototype.createPolygon = function (item, format, strokeThickness) {
+        var polygonColor = item.PolygonColor || format.color;
+        var polygon = Microsoft.Maps.WellKnownText.read(item.Polygon, {
+            polygonOptions: {
+                strokeColor: this.colorGeneration.getColor(polygonColor),
+                strokeThickness: strokeThickness,
+                fillColor: this.colorGeneration.getColor(polygonColor, format.transparency)
+            }
         });
+        return { data: item, polygon: polygon };
     };
     PolygonService.prototype.darwLabel = function (data) {
         var _this = this;
@@ -1216,6 +1224,7 @@ var ColumnView = (function () {
             this.Linestring,
             this.Polygon,
             this.PolygonCategory,
+            this.PolygonColor,
             this.Size,
             this.Tooltip
         ];
@@ -1228,6 +1237,7 @@ ColumnView.LineColor = "LineColor";
 ColumnView.Linestring = "Linestring";
 ColumnView.PolygonCategory = "PolygonCategory";
 ColumnView.Polygon = "Polygon";
+ColumnView.PolygonColor = "PolygonColor";
 ColumnView.Tooltip = "Tooltip";
 var MapView = (function () {
     function MapView() {
@@ -1235,6 +1245,7 @@ var MapView = (function () {
         this.Size = 0;
         this.LineColor = "";
         this.Polygon = "";
+        this.PolygonColor = "";
     }
     return MapView;
 }());
@@ -1304,8 +1315,6 @@ var powerbi;
                 var DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
                 var LineColoringSettings = (function () {
                     function LineColoringSettings() {
-                        // public shirtDirection: boolean = false;
-                        //public shirtDegree: number = 0;
                         this.minColor = "#00FF46";
                         this.centerColor = "#FFCA00";
                         this.maxColor = "#FF1912";
@@ -1378,13 +1387,25 @@ var powerbi;
                 var PolygonSettings = (function () {
                     function PolygonSettings() {
                         this.show = false;
-                        this.transparency = 50;
                         this.showline = true;
                         this.color = "0052FF";
+                        this.transparency = 50;
                     }
                     return PolygonSettings;
                 }());
                 oDmapD5AA58DF977C4921BDDC0050BFF97A2B.PolygonSettings = PolygonSettings;
+                var PolygonColoringSettings = (function () {
+                    function PolygonColoringSettings() {
+                        this.minColor = "#00FF46";
+                        this.centerColor = "#FFCA00";
+                        this.maxColor = "#FF1912";
+                        this.gradient = false;
+                        this.colorMinValue = 0;
+                        this.colorMaxValue = 80;
+                    }
+                    return PolygonColoringSettings;
+                }());
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.PolygonColoringSettings = PolygonColoringSettings;
                 var VisualSettings = (function (_super) {
                     __extends(VisualSettings, _super);
                     function VisualSettings() {
@@ -1397,6 +1418,7 @@ var powerbi;
                         _this.destinationNode = new NodeSizeSettings();
                         _this.polygon = new PolygonSettings();
                         _this.polygonLabel = new PolygonLabelSettings();
+                        _this.polygonColoring = new PolygonColoringSettings();
                         _this.dataLabel = new DataLabelSettings();
                         return _this;
                     }
@@ -1491,6 +1513,7 @@ var powerbi;
                                     }
                                     else if (columnName === ColumnView.Size) {
                                         polyline.DataLabel = new DataLabel(col.fieldName, rows[i][col.index]);
+                                        polyline[columnName] = rows[i][col.index];
                                     }
                                     else {
                                         polyline[columnName] = rows[i][col.index];

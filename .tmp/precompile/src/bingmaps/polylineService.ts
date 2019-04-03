@@ -1,19 +1,20 @@
 class PolylineService {
   private readonly _lineColorDefault: string;
   private readonly _strokeThicknessDefault: number;
-  private readonly colorGeneration: LineColoringGeneration;
+  private readonly colorGeneration: ColoringGeneration;
 
-  constructor(colorGeneration: LineColoringGeneration) {
+  constructor(colorGeneration: ColoringGeneration) {
     this.colorGeneration = colorGeneration;
     this._lineColorDefault = "#0700FF";
     this._strokeThicknessDefault = 3
   }
 
-  public draw(data: MapView[], format: LineColoringFormat): PolylineModel[] {
+  public draw(data: MapView[], format: LineFormat): PolylineModel[] {
     return data.filter(x => x.Linestring).map(item => this.createPolyline(item, format));
   }
 
-  private createPolyline(dataView: MapView, format: LineColoringFormat): PolylineModel {
+  private createPolyline(dataView: MapView, format: LineFormat): PolylineModel {
+    debugger;
     var polyline = Microsoft.Maps.WellKnownText.read(dataView.Linestring,
     {
       polylineOptions: {

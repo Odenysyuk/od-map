@@ -88,6 +88,7 @@ module powerbi.extensibility.visual {
               polyline[columnName] = new DataLabel(col.fieldName, rows[i][col.index]);
             } else if (columnName === ColumnView.Size) { // NOTE: If Size value isn't empty, write it in DataLabel 
               polyline.DataLabel = new DataLabel(col.fieldName, rows[i][col.index]);
+              polyline[columnName] = rows[i][col.index];
             } else {
               polyline[columnName] = rows[i][col.index];
             }

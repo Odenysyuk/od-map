@@ -8,7 +8,8 @@ class MapController {
     private _then: Action<Microsoft.Maps.Map>;
     private _format: VisualFormat;
     private _data: MapView[];
-    private _colorGeneration: LineColoringGeneration;
+    private _polylineColorGeneration: ColoringGeneration;
+    private _polygonColorGeneration: ColoringGeneration;
     private _polylineService: PolylineService;
     private _nodeService: NodeService;
     private _titleService: TitleSevice;
@@ -21,11 +22,12 @@ class MapController {
         this._div = div;
         this._format = format;
         this._data = data;
-        this._colorGeneration = new LineColoringGeneration(format.lineColoring);
-        this._polylineService = new PolylineService(this._colorGeneration);
-        this._nodeService = new NodeService(this._colorGeneration);
+        this._polylineColorGeneration = new ColoringGeneration(format.lineColoring);
+        this._polygonColorGeneration = new ColoringGeneration(format.polygonColoring);
+        this._polylineService = new PolylineService(this._polylineColorGeneration);
+        this._nodeService = new NodeService(this._polylineColorGeneration);
         this._titleService = new TitleSevice();
-        this._polygonService = new PolygonService();
+        this._polygonService = new PolygonService(this._polygonColorGeneration);
 
         loadMap = () => {
             this._remap();
@@ -33,6 +35,17 @@ class MapController {
             this._then = null;
             this._tooltipService = new TooltipService(this._map);
             this.drawMap(data, format)
+        }
+    }
+
+    public drawMap(data: MapView[], format: VisualFormat) {
+        if (Microsoft.Maps.WellKnownText) {
+            return this.reDrawMap(data, format);
+        }
+        else {
+            Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', () => {
+                return this.reDrawMap(data, format);
+            });
         }
     }
 
@@ -133,18 +146,7 @@ class MapController {
             }
         }
         return level;
-    }
-
-    public drawMap(data: MapView[], format: VisualFormat) {
-        if (Microsoft.Maps.WellKnownText) {
-            return this.reDrawMap(data, format);
-        }
-        else {
-            Microsoft.Maps.loadModule('Microsoft.Maps.WellKnownText', () => {
-                return this.reDrawMap(data, format);
-            });
-        }
-    }
+    } 
 
     async restyleMap(fm: MapLayerFormat) {
         let mapTypeId = this.mapType(fm);
@@ -155,16 +157,22 @@ class MapController {
 
     async reDrawMap(data: MapView[], format: VisualFormat) {
         this.resetMap();
-        this._colorGeneration.setColorColumn(data);
-        this._colorGeneration.setlineColoringFormat(format.lineColoring);
-        this._format = format;
-        this._data = data;
+        this.setDefaultData(data, format);
 
         await Promise.all([
             this.restyleMap(format.mapLayers), 
             this.drawPolylineData(data, format), 
             this.drawPolygonData(format, data)]);
         await this.setBestView();
+    }
+
+    private setDefaultData(data: MapView[], format: VisualFormat) {
+        this._polylineColorGeneration.setColorColumn(data, ColumnView.LineColor);
+        this._polylineColorGeneration.setColoringFormat(format.lineColoring);
+        this._polygonColorGeneration.setColorColumn(data, ColumnView.PolygonColor);
+        this._polygonColorGeneration.setColoringFormat(format.polygonColoring);
+        this._format = format;
+        this._data = data;
     }
 
     async drawPolygonData(format: VisualFormat, data: MapView[]) {

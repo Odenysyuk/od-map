@@ -5,6 +5,7 @@ class ColumnView{
     static Linestring: string = "Linestring"
     static PolygonCategory: string = "PolygonCategory"
     static Polygon: string = "Polygon"
+    static PolygonColor: string = "PolygonColor"    
     static Tooltip: string = "Tooltip"  
     static toArray() {
         return [
@@ -13,6 +14,7 @@ class ColumnView{
             this.Linestring,
             this.Polygon, 
             this.PolygonCategory, 
+            this.PolygonColor,
             this.Size, 
             this.Tooltip]
     }

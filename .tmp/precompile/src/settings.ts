@@ -29,8 +29,6 @@ module powerbi.extensibility.visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B  {
     import DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
 
     export class LineColoringSettings{        
-       // public shirtDirection: boolean = false;
-        //public shirtDegree: number = 0;
         public minColor: string = "#00FF46";
         public centerColor: string = "#FFCA00";
         public maxColor: string = "#FF1912";
@@ -82,10 +80,19 @@ module powerbi.extensibility.visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B  {
 
     export class PolygonSettings{
         public show: boolean = false;
-        public transparency: number = 50;
         public showline: boolean = true;
-        public color: string = "0052FF";
+        public color: string = "0052FF";        
+        public transparency: number = 50;
     }
+
+    export class PolygonColoringSettings{    
+         public minColor: string = "#00FF46";
+         public centerColor: string = "#FFCA00";
+         public maxColor: string = "#FF1912";
+         public gradient: boolean = false;
+         public colorMinValue: number = 0;
+         public colorMaxValue: number = 80;
+     }
 
     export class VisualSettings extends DataViewObjectsParser {
        public category: TextSettings = new TextSettings();
@@ -96,6 +103,7 @@ module powerbi.extensibility.visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B  {
        public destinationNode: NodeSizeSettings = new NodeSizeSettings();
        public polygon: PolygonSettings = new PolygonSettings();
        public polygonLabel: PolygonLabelSettings = new PolygonLabelSettings();
+       public polygonColoring: PolygonColoringSettings = new PolygonColoringSettings();
        public dataLabel: DataLabelSettings = new DataLabelSettings();       
     }
 }

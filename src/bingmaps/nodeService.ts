@@ -2,9 +2,9 @@ class NodeService {
     private readonly strokeWidthDefault: number;
     private readonly nodeSizeDefault: number;
     private readonly _lineColorDefault: string;
-    private readonly colorGeneration: LineColoringGeneration;
+    private readonly colorGeneration: ColoringGeneration;
 
-    constructor(colorGeneration: LineColoringGeneration) {
+    constructor(colorGeneration: ColoringGeneration) {
         this.colorGeneration = colorGeneration;
         this._lineColorDefault = "#0700FF";
         this.strokeWidthDefault = 3;
@@ -59,6 +59,7 @@ class NodeService {
     }
 
     private getNodeSize(nodeSize: number, sizeFormat: NodeSizeFormat): number {
+        debugger;
         let svgSize = nodeSize || this.nodeSizeDefault;
         if (!sizeFormat.changedSize) {
             return svgSize;

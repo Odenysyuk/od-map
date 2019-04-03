@@ -1,29 +1,27 @@
 class PolygonService {
-    private readonly _lineColorDefault: string;
     private readonly _strokeThicknessDefault: number;
+    private readonly colorGeneration: ColoringGeneration;
 
-    constructor() {
-        this._lineColorDefault = "#0700FF";
+    constructor(colorGeneration: ColoringGeneration) {
+        this.colorGeneration = colorGeneration;
         this._strokeThicknessDefault = 2
     }
 
     public draw(data: MapView[], format: PolygonFormat): PolygonModel[] {
-        let colorPolygon = format.color || this._lineColorDefault;
-        let colorPolygonRgb = RgbColor.hexToRgb(colorPolygon, format.transparency / 100).toString();
-        let strokeColor = RgbColor.hexToRgb(colorPolygon, 1).toString();
         let strokeThickness = format.showline ? this._strokeThicknessDefault : 0;
+        return data.filter(x => x.Polygon).map(item => this.createPolygon(item, format, strokeThickness));
+    }
 
-        return data.filter(x => x.Polygon.length !== 0).map(item => {
-            var polygon = Microsoft.Maps.WellKnownText.read(item.Polygon, {
-                polygonOptions: {
-                    strokeColor: strokeColor,
-                    strokeThickness: strokeThickness,
-                    fillColor: colorPolygonRgb
-                }
-            }) as Microsoft.Maps.Polygon;
-            
-            return { data: item, polygon: polygon };
-        });
+    private createPolygon(item: MapView, format: PolygonFormat, strokeThickness: number): PolygonModel {
+        const polygonColor = item.PolygonColor || format.color;
+        const polygon = Microsoft.Maps.WellKnownText.read(item.Polygon, {
+            polygonOptions: {
+                strokeColor: this.colorGeneration.getColor(polygonColor),
+                strokeThickness: strokeThickness,
+                fillColor: this.colorGeneration.getColor(polygonColor, format.transparency)
+            }
+        }) as Microsoft.Maps.Polygon;
+        return { data: item, polygon: polygon };
     }
 
     public darwLabel(data: PolygonModel[]): Microsoft.Maps.Pushpin[]{
