@@ -12,14 +12,29 @@
             "kind": "GroupingOrMeasure"
         },
         {
-            "displayName": "Line size",
-            "name": "LineSize",
+            "displayName": "Size",
+            "name": "Size",
             "kind": "GroupingOrMeasure"
         },
         {
             "displayName": "Line color",
             "description": "Color can be HEX code or number of data color. If Color is hex code, color of route will be disply of this code. Another way route will be display of data colot conditions.",
             "name": "LineColor",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Polygon category",
+            "name": "PolygonCategory",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Polygon",
+            "name": "Polygon",
+            "kind": "GroupingOrMeasure"
+        },
+        {
+            "displayName": "Tooltip",
+            "name": "Tooltip",
             "kind": "GroupingOrMeasure"
         }
     ],
@@ -49,11 +64,11 @@
                             },
                             {
                                 "displayName": "Arial Black",
-                                "value": "\"Arial Black\""
+                                "value": "Arial Black, Gadget, sans-serif"
                             },
                             {
                                 "displayName": "Arial Unicode MS",
-                                "value": "\"Arial Unicode MS\""
+                                "value": "Arial Unicode MS"
                             },
                             {
                                 "displayName": "Calibri",
@@ -65,7 +80,7 @@
                             },
                             {
                                 "displayName": "Cambria Math",
-                                "value": "\"Cambria Math\""
+                                "value": "Cambria Math"
                             },
                             {
                                 "displayName": "Candara",
@@ -73,7 +88,7 @@
                             },
                             {
                                 "displayName": "Comic Sans MS",
-                                "value": "\"Comic Sans MS\""
+                                "value": "Comic Sans MS"
                             },
                             {
                                 "displayName": "Consolas",
@@ -89,7 +104,7 @@
                             },
                             {
                                 "displayName": "Courier New",
-                                "value": "\"Courier New\""
+                                "value": "Courier New"
                             },
                             {
                                 "displayName": "Georgia",
@@ -97,19 +112,19 @@
                             },
                             {
                                 "displayName": "Lucida Sans Unicode",
-                                "value": "\"Lucida Sans Unicode\""
+                                "value": "Lucida Sans Unicode"
                             },
                             {
                                 "displayName": "Segoe (Bold)",
-                                "value": "\"Segoe UI Bold\", wf_segoe-ui_bold, helvetica, arial, sans-serif"
+                                "value": "Segoe UI Bold, wf_segoe-ui_bold, helvetica, arial, sans-serif"
                             },
                             {
                                 "displayName": "Segoe UI",
-                                "value": "\"Segoe UI\", wf_segoe-ui_normal, helvetica, arial, sans-serif"
+                                "value": "Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif"
                             },
                             {
                                 "displayName": "Segoe UI Light",
-                                "value": "\"Segoe UI Light\", wf_segoe-ui_bold, helvetica, arial, sans-serif"
+                                "value": "Segoe UI Light, wf_segoe-ui_bold, helvetica, arial, sans-serif"
                             },
                             {
                                 "displayName": "Symbol",
@@ -121,19 +136,15 @@
                             },
                             {
                                 "displayName": "Times New Roman",
-                                "value": "\"Times New Roman\""
+                                "value": "Times New Roman"
                             },
                             {
                                 "displayName": "Trebuchet MS",
-                                "value": "\"Trebuchet MS\""
+                                "value": "Trebuchet MS"
                             },
                             {
                                 "displayName": "Verdana",
                                 "value": "Verdana"
-                            },
-                            {
-                                "displayName": "Wingdings",
-                                "value": "Wingdings"
                             }
                         ]
                     }
@@ -194,21 +205,9 @@
                 }
             }
         },
-        "polyline": {
-            "displayName": "Polyline",
-            "properties": {
-                "shirtDirection": {
-                    "displayName": "Shift Direction Right/Left Side",
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "shirtDegree": {
-                    "displayName": "Shift Degree",
-                    "type": {
-                        "numeric": true
-                    }
-                },
+        "lineColoring": {
+            "displayName": "Line Coloring",
+            "properties": {      
                 "minColor": {
                     "displayName": "Minimum Color",
                     "type": {
@@ -239,14 +238,20 @@
                         }
                     }
                 },
+                "gradient":{
+                    "displayName": "Gradient",
+                    "type": {
+                        "bool": true
+                    }
+                },
                 "colorMinValue": {
-                    "displayName": "Minimum Size",
+                    "displayName": "Minimum Value",
                     "type": {
                         "numeric": true
                     }
                 },
                 "colorMaxValue": {
-                    "displayName": "Maximum Size",
+                    "displayName": "Maximum Value",
                     "type": {
                         "numeric": true
                     }
@@ -262,43 +267,7 @@
         },
         "node": {
             "displayName": "Node",
-            "properties": {
-                "show": {
-                    "displayName": "Turn on/off",
-                    "type": {
-                        "bool": true
-                    }
-                },
-                "minColor": {
-                    "displayName": "Minimum Color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "centerColor": {
-                    "displayName": "Center Color ",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
-                "maxColor": {
-                    "displayName": "Maximum Color",
-                    "type": {
-                        "fill": {
-                            "solid": {
-                                "color": true
-                            }
-                        }
-                    }
-                },
+            "properties": {           
                 "transparency": {
                     "displayName": "Line Opacity",
                     "description": "Select polyline opacity",
@@ -323,6 +292,12 @@
                         "bool": true
                     }
                 },
+                "changedSize": {
+                    "displayName": "Node Fixed/Changing Size",
+                    "type": {
+                        "bool": true
+                    }
+                },
                 "minValue": {
                     "displayName": "Minimum Origin Node Size",
                     "type": {
@@ -338,7 +313,7 @@
             }
         },
         "destinationNode": {
-            "displayName": "Destination Node Fixed/Changing Size ",
+            "displayName": "Destination Node None/Arrow ",
             "properties": {
                 "show": {
                     "displayName": "Turn on/off",
@@ -346,20 +321,340 @@
                         "bool": true
                     }
                 },
+                "changedSize": {
+                    "displayName": "Node Fixed/Changing Size",
+                    "type": {
+                        "bool": true
+                    }
+                },
                 "minValue": {
-                    "displayName": "Minimum Destination Node Size",
+                    "displayName": "Minimum Origin Node Size",
                     "type": {
                         "numeric": true
                     }
                 },
                 "maxValue": {
-                    "displayName": "Maximum Destination Node Size",
+                    "displayName": "Maximum Origin Node Size",
                     "type": {
                         "numeric": true
                     }
                 }
             }
-        }       
+        },         
+        "polygon":{
+            "displayName": "Polygon",
+            "properties": {
+                "show": {
+                    "displayName": "Turn on/off",
+                    "type": {"bool": true}
+                },      
+                "transparency":{
+                    "displayName": "Opacity",
+                    "description": "Select polygon opacity",                    
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "showline":{
+                    "displayName": "Show polygon line",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "color":{
+                    "displayName": "Polygon Color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color":true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "polygonLabel": {
+            "displayName": "Polygon Label On/Off (toggle)",
+            "properties": {
+                "show": {
+                    "displayName": "Turn on/off",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontType": {
+                    "displayName": "Font Type",
+                    "description": "Select font type",
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "Default",
+                                "description": "helvetica, arial, sans-serif",
+                                "value": "helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Arial",
+                                "value": "Arial"
+                            },
+                            {
+                                "displayName": "Arial Black",
+                                "value": "Arial Black, Gadget, sans-serif"
+                            },
+                            {
+                                "displayName": "Arial Unicode MS",
+                                "value": "Arial Unicode MS"
+                            },
+                            {
+                                "displayName": "Calibri",
+                                "value": "Calibri"
+                            },
+                            {
+                                "displayName": "Cambria",
+                                "value": "Cambria"
+                            },
+                            {
+                                "displayName": "Cambria Math",
+                                "value": "Cambria Math"
+                            },
+                            {
+                                "displayName": "Candara",
+                                "value": "Candara"
+                            },
+                            {
+                                "displayName": "Comic Sans MS",
+                                "value": "Comic Sans MS"
+                            },
+                            {
+                                "displayName": "Consolas",
+                                "value": "Consolas"
+                            },
+                            {
+                                "displayName": "Constantia",
+                                "value": "Constantia"
+                            },
+                            {
+                                "displayName": "Corbel",
+                                "value": "Corbel"
+                            },
+                            {
+                                "displayName": "Courier New",
+                                "value": "Courier New"
+                            },
+                            {
+                                "displayName": "Georgia",
+                                "value": "Georgia"
+                            },
+                            {
+                                "displayName": "Lucida Sans Unicode",
+                                "value": "Lucida Sans Unicode"
+                            },
+                            {
+                                "displayName": "Segoe (Bold)",
+                                "value": "Segoe UI Bold, wf_segoe-ui_bold, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Segoe UI",
+                                "value": "Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Segoe UI Light",
+                                "value": "Segoe UI Light, wf_segoe-ui_bold, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Symbol",
+                                "value": "Symbol"
+                            },
+                            {
+                                "displayName": "Tahoma",
+                                "value": "Tahoma"
+                            },
+                            {
+                                "displayName": "Times New Roman",
+                                "value": "Times New Roman"
+                            },
+                            {
+                                "displayName": "Trebuchet MS",
+                                "value": "Trebuchet MS"
+                            },
+                            {
+                                "displayName": "Verdana",
+                                "value": "Verdana"
+                            }
+                        ]
+                    }
+                },
+                "fontSize": {
+                    "displayName": "Font Size",
+                    "description": "Select font size",
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "fontColor": {
+                    "displayName": "Font Color",
+                    "description": "Select font color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "textAlignment": {
+                    "displayName": "Category Label Alignment",
+                    "description": "Select Category Label Alignment Left/Middle/Right",
+                    "type": {
+                        "formatting": {
+                            "alignment": true
+                        }
+                    }
+                }
+            }
+        },
+        "dataLabel": {
+            "displayName": "Data Labels",
+            "properties": {
+                "show": {
+                    "displayName": "Turn on/off",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "fontType": {
+                    "displayName": "Font Type",
+                    "description": "Select font type",
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayName": "Default",
+                                "description": "helvetica, arial, sans-serif",
+                                "value": "helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Arial",
+                                "value": "Arial"
+                            },
+                            {
+                                "displayName": "Arial Black",
+                                "value": "Arial Black, Gadget, sans-serif"
+                            },
+                            {
+                                "displayName": "Arial Unicode MS",
+                                "value": "Arial Unicode MS"
+                            },
+                            {
+                                "displayName": "Calibri",
+                                "value": "Calibri"
+                            },
+                            {
+                                "displayName": "Cambria",
+                                "value": "Cambria"
+                            },
+                            {
+                                "displayName": "Cambria Math",
+                                "value": "Cambria Math"
+                            },
+                            {
+                                "displayName": "Candara",
+                                "value": "Candara"
+                            },
+                            {
+                                "displayName": "Comic Sans MS",
+                                "value": "Comic Sans MS"
+                            },
+                            {
+                                "displayName": "Consolas",
+                                "value": "Consolas"
+                            },
+                            {
+                                "displayName": "Constantia",
+                                "value": "Constantia"
+                            },
+                            {
+                                "displayName": "Corbel",
+                                "value": "Corbel"
+                            },
+                            {
+                                "displayName": "Courier New",
+                                "value": "Courier New"
+                            },
+                            {
+                                "displayName": "Georgia",
+                                "value": "Georgia"
+                            },
+                            {
+                                "displayName": "Lucida Sans Unicode",
+                                "value": "Lucida Sans Unicode"
+                            },
+                            {
+                                "displayName": "Segoe (Bold)",
+                                "value": "Segoe UI Bold, wf_segoe-ui_bold, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Segoe UI",
+                                "value": "Segoe UI, wf_segoe-ui_normal, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Segoe UI Light",
+                                "value": "Segoe UI Light, wf_segoe-ui_bold, helvetica, arial, sans-serif"
+                            },
+                            {
+                                "displayName": "Symbol",
+                                "value": "Symbol"
+                            },
+                            {
+                                "displayName": "Tahoma",
+                                "value": "Tahoma"
+                            },
+                            {
+                                "displayName": "Times New Roman",
+                                "value": "Times New Roman"
+                            },
+                            {
+                                "displayName": "Trebuchet MS",
+                                "value": "Trebuchet MS"
+                            },
+                            {
+                                "displayName": "Verdana",
+                                "value": "Verdana"
+                            }
+                        ]
+                    }
+                },
+                "fontSize": {
+                    "displayName": "Font Size",
+                    "description": "Select font size",
+                    "type": {
+                        "formatting": {
+                            "fontSize": true
+                        }
+                    }
+                },
+                "fontColor": {
+                    "displayName": "Font Color",
+                    "description": "Select font color",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color": true
+                            }
+                        }
+                    }
+                },
+                "textAlignment": {
+                    "displayName": "Category Label Alignment",
+                    "description": "Select Category Label Alignment Left/Middle/Right",
+                    "type": {
+                        "formatting": {
+                            "alignment": true
+                        }
+                    }
+                }
+            }
+        }     
     },
     "dataViewMappings": [
         {
@@ -378,12 +673,27 @@
                         },
                         {
                             "for": {
-                                "in": "LineSize"
+                                "in": "Size"
                             }
                         },
                         {
                             "for": {
                                 "in": "LineColor"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "PolygonCategory"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Polygon"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "Tooltip"
                             }
                         }
                     ],

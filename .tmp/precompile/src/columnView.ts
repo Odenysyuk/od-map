@@ -1,0 +1,19 @@
+class ColumnView{
+    static Category: string = "Category"
+    static Size: string = "Size"
+    static LineColor: string = "LineColor"
+    static Linestring: string = "Linestring"
+    static PolygonCategory: string = "PolygonCategory"
+    static Polygon: string = "Polygon"
+    static Tooltip: string = "Tooltip"  
+    static toArray() {
+        return [
+            this.Category, 
+            this.LineColor,
+            this.Linestring,
+            this.Polygon, 
+            this.PolygonCategory, 
+            this.Size, 
+            this.Tooltip]
+    }
+}

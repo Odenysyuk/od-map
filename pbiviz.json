@@ -1,7 +1,7 @@
 {
   "visual": {
     "name": "oDmap",
-    "displayName": "ODmap",
+    "displayName": "OD map",
     "guid": "oDmapD5AA58DF977C4921BDDC0050BFF97A2B",
     "visualClassName": "Visual",
     "version": "1.0.0",
@@ -15,10 +15,9 @@
     "email": ""
   },
   "assets": {
-    "icon": "assets/icon.png"
+    "icon": "assets/moby-icon.png"
   },
   "externalJS": [
-    "src/initLibrary.js",
     "node_modules/powerbi-visuals-utils-dataviewutils/lib/index.js",
     "node_modules/d3/d3.min.js",
     "node_modules/bingmaps/index.js"
@@ -26,5 +25,5 @@
   "style": "style/visual.less",
   "capabilities": "capabilities.json",
   "dependencies": "dependencies.json",
-  "stringResources": []
+  "stringResources": []  
 }

@@ -55,6 +55,7 @@
             "check-type"
         ],
         "insecure-random": true,
+        "no-use-before-declare": false,
         "no-banned-terms": true,
         "no-cookies": true,
         "no-delete-expression": true,
@@ -69,7 +70,7 @@
         "no-reserved-keywords": true,
         "no-string-based-set-immediate": true,
         "no-string-based-set-interval": true,
-        "no-string-based-set-timeout": true,
+        "no-string-based-set-timeout": true,   
         "non-literal-require": true,
         "possible-timing-attack": true,
         "react-anchor-blank-noopener": true,
