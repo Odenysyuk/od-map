@@ -1569,8 +1569,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.oDmapD5AA58DF977C4921BDDC0050BFF97A2B = {
-                name: 'oDmapD5AA58DF977C4921BDDC0050BFF97A2B',
+            plugins.oDmapD5AA58DF977C4921BDDC0050BFF97A2B_DEBUG = {
+                name: 'oDmapD5AA58DF977C4921BDDC0050BFF97A2B_DEBUG',
                 displayName: 'OD map',
                 class: 'Visual',
                 version: '1.0.0',

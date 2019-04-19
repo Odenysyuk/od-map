@@ -191,7 +191,6 @@ class MapController {
     }
 
     async drawPolylineData(data: MapView[], format: VisualFormat) {
-
         let polylineModels = this._polylineService.draw(data, this._format.lineColoring);   
 
         if (polylineModels) {        

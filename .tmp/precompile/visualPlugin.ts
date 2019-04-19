@@ -1,6 +1,6 @@
 module powerbi.visuals.plugins {
-    export var oDmapD5AA58DF977C4921BDDC0050BFF97A2B = {
-        name: 'oDmapD5AA58DF977C4921BDDC0050BFF97A2B',
+    export var oDmapD5AA58DF977C4921BDDC0050BFF97A2B_DEBUG = {
+        name: 'oDmapD5AA58DF977C4921BDDC0050BFF97A2B_DEBUG',
         displayName: 'OD map',
         class: 'Visual',
         version: '1.0.0',
