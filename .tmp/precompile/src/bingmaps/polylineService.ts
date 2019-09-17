@@ -14,7 +14,6 @@ class PolylineService {
   }
 
   private createPolyline(dataView: MapView, format: LineFormat): PolylineModel {
-    debugger;
     var polyline = Microsoft.Maps.WellKnownText.read(dataView.Linestring,
     {
       polylineOptions: {

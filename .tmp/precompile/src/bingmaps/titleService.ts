@@ -79,6 +79,7 @@ class TitleSevice {
             icon: this.createLabelIcon(text, textColor, fontSize, fontFamily),
             text: text,
             anchor: new Microsoft.Maps.Point(this.getAligmantOfTitle(format.textAlignment, width), size / 2 + fontSize * 1)
+        
         });
         
         //Store font info in metadata so we can update icons if needed.

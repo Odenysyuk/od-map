@@ -59,7 +59,6 @@ class NodeService {
     }
 
     private getNodeSize(nodeSize: number, sizeFormat: NodeSizeFormat): number {
-        debugger;
         let svgSize = nodeSize || this.nodeSizeDefault;
         if (!sizeFormat.changedSize) {
             return svgSize;

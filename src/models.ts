@@ -8,6 +8,7 @@ class MapView {
     public PolygonColor: string = "";
     public Tooltip: DataLabel;
     public DataLabel: DataLabel;
+    public IsLineOverlapsPolygon: boolean;
 }
 
 class LocationModel {

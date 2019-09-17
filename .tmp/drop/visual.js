@@ -581,6 +581,8 @@ var MapController = (function () {
         this._nodeService = new NodeService(this._polylineColorGeneration);
         this._titleService = new TitleSevice();
         this._polygonService = new PolygonService(this._polygonColorGeneration);
+        this.layerFront = new Microsoft.Maps.Layer();
+        this.layerBehind = new Microsoft.Maps.Layer();
         loadMap = function () {
             _this._remap();
             _this._then && _this._then(_this._map);
@@ -706,20 +708,31 @@ var MapController = (function () {
     };
     MapController.prototype.reDrawMap = function (data, format) {
         return __awaiter(this, void 0, void 0, function () {
+            var dataFrontLine, dataBehindLine;
             return __generator(this, function (_a) {
                 switch (_a.label) {
                     case 0:
                         this.resetMap();
                         this.setDefaultData(data, format);
+                        dataFrontLine = data.filter(function (d) { return d.IsLineOverlapsPolygon; });
+                        dataBehindLine = data.filter(function (d) { return !d.IsLineOverlapsPolygon; });
                         return [4 /*yield*/, Promise.all([
                                 this.restyleMap(format.mapLayers),
-                                this.drawPolylineData(data, format),
-                                this.drawPolygonData(format, data)
+                                this.drawPolygonData(this.layerFront, format, dataFrontLine),
+                                this.drawPolygonData(this.layerBehind, format, dataBehindLine)
                             ])];
                     case 1:
                         _a.sent();
-                        return [4 /*yield*/, this.setBestView()];
+                        return [4 /*yield*/, Promise.all([
+                                this.drawPolylineData(this.layerFront, format, dataBehindLine),
+                                this.drawPolylineData(this.layerBehind, format, dataFrontLine),
+                            ])];
                     case 2:
+                        _a.sent();
+                        this._map.layers.insert(this.layerBehind);
+                        this._map.layers.insert(this.layerFront);
+                        return [4 /*yield*/, this.setBestView()];
+                    case 3:
                         _a.sent();
                         return [2 /*return*/];
                 }
@@ -734,18 +747,19 @@ var MapController = (function () {
         this._format = format;
         this._data = data;
     };
-    MapController.prototype.drawPolygonData = function (format, data) {
+    MapController.prototype.drawPolygonData = function (layer, format, data) {
         return __awaiter(this, void 0, void 0, function () {
-            var polygonModels, labels;
+            var polygonModels, polygons, labels;
             return __generator(this, function (_a) {
                 if (format.polygon.show) {
                     polygonModels = this._polygonService.draw(data, format.polygon);
-                    this._polygons = polygonModels.map(function (x) { return x.polygon; });
-                    this._map.entities.add(this._polygons);
-                    if (format.polygonLabel.show && this._polygons.length) {
+                    polygons = polygonModels.map(function (x) { return x.polygon; });
+                    layer.add(polygons);
+                    if (format.polygonLabel.show && polygons.length) {
                         labels = this._titleService.drawPolygonLabel(polygonModels, format.polygonLabel);
-                        this._map.entities.add(labels);
+                        layer.add(labels);
                     }
+                    this._polygons = this._polygons.concat(polygons);
                 }
                 else {
                     this._polygons = [];
@@ -754,7 +768,7 @@ var MapController = (function () {
             });
         });
     };
-    MapController.prototype.drawPolylineData = function (data, format) {
+    MapController.prototype.drawPolylineData = function (layer, format, data) {
         return __awaiter(this, void 0, void 0, function () {
             var _this = this;
             var polylineModels;
@@ -763,10 +777,10 @@ var MapController = (function () {
                     case 0:
                         polylineModels = this._polylineService.draw(data, this._format.lineColoring);
                         if (!polylineModels) return [3 /*break*/, 2];
-                        return [4 /*yield*/, Promise.all([this.drawDataLabel(format, polylineModels),
-                                this.drawPolyline(polylineModels),
-                                this.drawOriginandCategoryNode(polylineModels, format),
-                                this.drawDestinationNode(format, polylineModels)])];
+                        return [4 /*yield*/, Promise.all([this.drawDataLabel(layer, format, polylineModels),
+                                this.drawPolyline(layer, polylineModels),
+                                this.drawOriginandCategoryNode(layer, polylineModels, format),
+                                this.drawDestinationNode(layer, format, polylineModels)])];
                     case 1:
                         _a.sent();
                         _a.label = 2;
@@ -779,40 +793,42 @@ var MapController = (function () {
             });
         });
     };
-    MapController.prototype.drawPolyline = function (polylineModels) {
+    MapController.prototype.drawPolyline = function (layer, polylineModels) {
         return __awaiter(this, void 0, void 0, function () {
+            var polylines;
             return __generator(this, function (_a) {
-                this._polylines = polylineModels.map(function (x) { return x.polyline; });
-                this._map.entities.add(this._polylines);
+                polylines = polylineModels.map(function (x) { return x.polyline; });
+                layer.add(polylines);
+                this._polylines = this._polylines.concat(polylines);
                 return [2 /*return*/];
             });
         });
     };
-    MapController.prototype.drawDataLabel = function (format, polylineModels) {
+    MapController.prototype.drawDataLabel = function (layer, format, polylineModels) {
         if (format.dataLabel.show) {
             var dataLabels = this._titleService.drawDataLabel(polylineModels, format.dataLabel);
-            this._map.entities.add(dataLabels);
+            layer.add(dataLabels);
         }
     };
-    MapController.prototype.drawDestinationNode = function (format, polylineModels) {
+    MapController.prototype.drawDestinationNode = function (layer, format, polylineModels) {
         if (format.destinationNode.show) {
             var destNode = this.getDestinationNote(polylineModels);
             var destMapNodes = this._nodeService.drawArroweNode(destNode, format.node, format.destinationNode);
-            this._map.entities.add(destMapNodes);
+            layer.add(destMapNodes);
         }
     };
-    MapController.prototype.drawOriginandCategoryNode = function (polylineModels, format) {
+    MapController.prototype.drawOriginandCategoryNode = function (layer, polylineModels, format) {
         return __awaiter(this, void 0, void 0, function () {
             var originNotes, titles, originMapNodes;
             return __generator(this, function (_a) {
                 originNotes = this.getOriginNotes(polylineModels);
                 if (format.category.show && originNotes) {
                     titles = this._titleService.draw(originNotes, format.category, format.oridinNode);
-                    this._map.entities.add(titles);
+                    layer.add(titles);
                 }
                 if (format.oridinNode.show) {
                     originMapNodes = this._nodeService.drawCircleNode(originNotes, format.node, format.oridinNode);
-                    this._map.entities.add(originMapNodes);
+                    layer.add(originMapNodes);
                 }
                 return [2 /*return*/];
             });
@@ -822,6 +838,7 @@ var MapController = (function () {
         return __awaiter(this, void 0, void 0, function () {
             var primitive, vbounds;
             return __generator(this, function (_a) {
+                debugger;
                 primitive = [];
                 primitive = primitive.concat(this._polylines);
                 primitive = primitive.concat(this._polygons);
@@ -862,7 +879,13 @@ var MapController = (function () {
     MapController.prototype.resetMap = function () {
         return __awaiter(this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                this._map.entities.clear();
+                this._polylines = [];
+                this._polygons = [];
+                Promise.all([
+                    this._map.entities.clear(),
+                    this.layerBehind.clear(),
+                    this.layerFront.clear(),
+                ]);
                 return [2 /*return*/];
             });
         });
@@ -967,7 +990,6 @@ var PolylineService = (function () {
         return data.filter(function (x) { return x.Linestring; }).map(function (item) { return _this.createPolyline(item, format); });
     };
     PolylineService.prototype.createPolyline = function (dataView, format) {
-        debugger;
         var polyline = Microsoft.Maps.WellKnownText.read(dataView.Linestring, {
             polylineOptions: {
                 strokeColor: this.colorGeneration.getColor(dataView.LineColor || this._lineColorDefault, format.transparency),
@@ -1032,7 +1054,6 @@ var NodeService = (function () {
         });
     };
     NodeService.prototype.getNodeSize = function (nodeSize, sizeFormat) {
-        debugger;
         var svgSize = nodeSize || this.nodeSizeDefault;
         if (!sizeFormat.changedSize) {
             return svgSize;
@@ -1222,6 +1243,7 @@ var ColumnView = (function () {
             this.Category,
             this.LineColor,
             this.Linestring,
+            this.IsLineOverlapsPolygon,
             this.Polygon,
             this.PolygonCategory,
             this.PolygonColor,
@@ -1235,6 +1257,7 @@ ColumnView.Category = "Category";
 ColumnView.Size = "Size";
 ColumnView.LineColor = "LineColor";
 ColumnView.Linestring = "Linestring";
+ColumnView.IsLineOverlapsPolygon = "IsLineOverlapsPolygon";
 ColumnView.PolygonCategory = "PolygonCategory";
 ColumnView.Polygon = "Polygon";
 ColumnView.PolygonColor = "PolygonColor";
@@ -1487,8 +1510,8 @@ var powerbi;
                         try {
                             this.viewModel = this.getViewModel(options);
                         }
-                        catch (e) {
-                            console.error("Couldn't parse models", e);
+                        catch (exception) {
+                            console.error("Couldn't parse models", exception);
                         }
                         init(this.divMap.node(), this.viewModel, this.visualSettings);
                     };
@@ -1569,8 +1592,8 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.oDmapD5AA58DF977C4921BDDC0050BFF97A2B_DEBUG = {
-                name: 'oDmapD5AA58DF977C4921BDDC0050BFF97A2B_DEBUG',
+            plugins.oDmapD5AA58DF977C4921BDDC0050BFF97A2B = {
+                name: 'oDmapD5AA58DF977C4921BDDC0050BFF97A2B',
                 displayName: 'OD map',
                 class: 'Visual',
                 version: '1.0.0',
