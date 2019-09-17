@@ -54,12 +54,12 @@ module powerbi.extensibility.visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B  {
     }
 
     public update(options: VisualUpdateOptions) {
-      let dataView = VisualSettings.parse<VisualSettings>(options.dataViews[0] || {} as powerbi.DataView);
+      let dataView = VisualSettings.parse<VisualSettings>(options.dataViews[0] || {} as powerbi.DataView);      
       this.visualSettings = dataView;
       try {
         this.viewModel = this.getViewModel(options);
-      } catch (e) {
-        console.error("Couldn't parse models", e)
+      } catch (exception) {
+        console.error("Couldn't parse models", exception)
       }
 
       init(this.divMap.node() as HTMLDivElement, this.viewModel, this.visualSettings);

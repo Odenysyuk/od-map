@@ -17,6 +17,8 @@ class MapController {
     private _tooltipService: TooltipService;
     private _polylines: Microsoft.Maps.Polyline[];
     private _polygons: Microsoft.Maps.Polygon[];
+    private layerFront: Microsoft.Maps.Layer;
+    private layerBehind: Microsoft.Maps.Layer;
 
     constructor(div: HTMLDivElement, data: MapView[], format: VisualFormat) {
         this._div = div;
@@ -28,6 +30,8 @@ class MapController {
         this._nodeService = new NodeService(this._polylineColorGeneration);
         this._titleService = new TitleSevice();
         this._polygonService = new PolygonService(this._polygonColorGeneration);
+        this.layerFront = new Microsoft.Maps.Layer();
+        this.layerBehind = new Microsoft.Maps.Layer();
 
         loadMap = () => {
             this._remap();
@@ -158,11 +162,24 @@ class MapController {
     async reDrawMap(data: MapView[], format: VisualFormat) {
         this.resetMap();
         this.setDefaultData(data, format);
+        
+        const dataFrontLine = data.filter(d => d.IsLineOverlapsPolygon); // Front line, behind polygon
+        const dataBehindLine = data.filter(d => !d.IsLineOverlapsPolygon);// Behind line, front polygon
+  
+        await Promise.all([
+            this.restyleMap(format.mapLayers),
+            this.drawPolygonData(this.layerFront, format, dataFrontLine),
+            this.drawPolygonData(this.layerBehind, format, dataBehindLine)
+        ]); 
 
         await Promise.all([
-            this.restyleMap(format.mapLayers), 
-            this.drawPolylineData(data, format), 
-            this.drawPolygonData(format, data)]);
+            this.drawPolylineData(this.layerFront, format, dataBehindLine),
+            this.drawPolylineData(this.layerBehind, format, dataFrontLine),
+        ]);         
+     
+        this._map.layers.insert(this.layerBehind);
+        this._map.layers.insert(this.layerFront);  
+
         await this.setBestView();
     }
 
@@ -175,29 +192,30 @@ class MapController {
         this._data = data;
     }
 
-    async drawPolygonData(format: VisualFormat, data: MapView[]) {
+    async drawPolygonData(layer: Microsoft.Maps.Layer, format: VisualFormat, data: MapView[]) {
         if (format.polygon.show) {            
-            const polygonModels = this._polygonService.draw(data, format.polygon);
-            this._polygons = polygonModels.map(x => x.polygon);
-            this._map.entities.add(this._polygons);
+            const polygonModels = this._polygonService.draw(data, format.polygon);           
+            const polygons = polygonModels.map(x => x.polygon);
+            layer.add(polygons);          
 
-            if (format.polygonLabel.show && this._polygons.length) {
+            if (format.polygonLabel.show && polygons.length) {
                 const labels = this._titleService.drawPolygonLabel(polygonModels, format.polygonLabel);
-                this._map.entities.add(labels);
+                layer.add(labels);
             }
+
+            this._polygons = this._polygons.concat(polygons);
         } else {
             this._polygons = [];
         }
     }
 
-    async drawPolylineData(data: MapView[], format: VisualFormat) {
-        let polylineModels = this._polylineService.draw(data, this._format.lineColoring);   
-
-        if (polylineModels) {        
-            await Promise.all([ this.drawDataLabel(format, polylineModels),
-                                this.drawPolyline(polylineModels),
-                                this.drawOriginandCategoryNode(polylineModels, format),         
-                                this.drawDestinationNode(format, polylineModels)]); 
+    async drawPolylineData(layer: Microsoft.Maps.Layer, format: VisualFormat, data: MapView[]) {
+        let polylineModels = this._polylineService.draw(data, this._format.lineColoring);  
+        if (polylineModels) {  
+            await Promise.all([ this.drawDataLabel(layer, format, polylineModels),
+                                this.drawPolyline(layer,polylineModels),
+                                this.drawOriginandCategoryNode(layer, polylineModels, format),         
+                                this.drawDestinationNode(layer, format, polylineModels)]); 
         }
 
         polylineModels.filter(model => model.data.Tooltip).forEach(model => {
@@ -205,41 +223,43 @@ class MapController {
         });
     }
 
-    async drawPolyline(polylineModels: PolylineModel[]) {
-        this._polylines = polylineModels.map(x => x.polyline);
-        this._map.entities.add(this._polylines);
+    async drawPolyline(layer: Microsoft.Maps.Layer, polylineModels: PolylineModel[]) {
+        const polylines = polylineModels.map(x => x.polyline);
+        layer.add(polylines);
+        this._polylines = this._polylines.concat(polylines);   
     }
 
-    private drawDataLabel(format: VisualFormat, polylineModels: PolylineModel[]) {
+    private drawDataLabel(layer: Microsoft.Maps.Layer, format: VisualFormat, polylineModels: PolylineModel[]) {
         if (format.dataLabel.show) {
             let dataLabels = this._titleService.drawDataLabel(polylineModels, format.dataLabel);
-            this._map.entities.add(dataLabels);
+            layer.add(dataLabels);
         }
     }
 
-    private drawDestinationNode(format: VisualFormat, polylineModels: PolylineModel[]) {
+    private drawDestinationNode(layer: Microsoft.Maps.Layer, format: VisualFormat, polylineModels: PolylineModel[]) {
         if (format.destinationNode.show) {
             let destNode = this.getDestinationNote(polylineModels);
             let destMapNodes = this._nodeService.drawArroweNode(destNode, format.node, format.destinationNode);
-            this._map.entities.add(destMapNodes);
+            layer.add(destMapNodes);
         }
     }
 
-    async drawOriginandCategoryNode(polylineModels: PolylineModel[], format: VisualFormat) {
+    async drawOriginandCategoryNode(layer: Microsoft.Maps.Layer, polylineModels: PolylineModel[], format: VisualFormat) {
         const originNotes = this.getOriginNotes(polylineModels);
         
         if (format.category.show && originNotes) {
             let titles = this._titleService.draw(originNotes, format.category, format.oridinNode);
-            this._map.entities.add(titles);
+            layer.add(titles);
         }
 
         if (format.oridinNode.show) {
             let originMapNodes = this._nodeService.drawCircleNode(originNotes, format.node, format.oridinNode);
-            this._map.entities.add(originMapNodes);
+            layer.add(originMapNodes);
         }     
     }
 
     async setBestView() {
+        debugger;
         let primitive: Microsoft.Maps.IPrimitive[] = [];
         primitive = primitive.concat(this._polylines);
         primitive = primitive.concat(this._polygons);
@@ -280,6 +300,12 @@ class MapController {
     }
 
     async resetMap() {
-        this._map.entities.clear();
+        this._polylines = [];
+        this._polygons = [];
+        Promise.all([
+            this._map.entities.clear(),
+            this.layerBehind.clear(),
+            this.layerFront.clear(),
+        ]);         
     }
 } 

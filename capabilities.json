@@ -23,6 +23,17 @@
             "kind": "GroupingOrMeasure"
         },
         {
+            "displayName": "Line on top of Polygons",
+            "description": "Line on top of Polygons",
+            "name": "IsLineOverlapsPolygon",
+            "kind": "GroupingOrMeasure",       
+            "preferredTypes": [
+                {
+                    "bool": true
+                }
+            ]
+        },
+        {
             "displayName": "Polygon category",
             "name": "PolygonCategory",
             "kind": "GroupingOrMeasure"
@@ -213,7 +224,7 @@
         },
         "lineColoring": {
             "displayName": "Line Coloring",
-            "properties": {      
+            "properties": {
                 "minColor": {
                     "displayName": "Minimum Color",
                     "type": {
@@ -244,7 +255,7 @@
                         }
                     }
                 },
-                "gradient":{
+                "gradient": {
                     "displayName": "Gradient",
                     "type": {
                         "bool": true
@@ -273,7 +284,7 @@
         },
         "node": {
             "displayName": "Node",
-            "properties": {           
+            "properties": {
                 "transparency": {
                     "displayName": "Line Opacity",
                     "description": "Select polyline opacity",
@@ -346,26 +357,28 @@
                     }
                 }
             }
-        },         
-        "polygon":{
+        },
+        "polygon": {
             "displayName": "Polygon",
             "properties": {
                 "show": {
                     "displayName": "Turn on/off",
-                    "type": {"bool": true}
-                },   
-                "showline":{
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "showline": {
                     "displayName": "Show line",
                     "type": {
                         "bool": true
                     }
                 },
-                "color":{
+                "color": {
                     "displayName": "Default Color",
                     "type": {
                         "fill": {
                             "solid": {
-                                "color":true
+                                "color": true
                             }
                         }
                     }
@@ -522,7 +535,7 @@
         },
         "polygonColoring": {
             "displayName": "Polygon Coloring",
-            "properties": {      
+            "properties": {
                 "minColor": {
                     "displayName": "Minimum Color",
                     "type": {
@@ -553,7 +566,7 @@
                         }
                     }
                 },
-                "gradient":{
+                "gradient": {
                     "displayName": "Gradient",
                     "type": {
                         "bool": true
@@ -713,7 +726,7 @@
                     }
                 }
             }
-        }     
+        }
     },
     "dataViewMappings": [
         {
@@ -748,6 +761,11 @@
                         {
                             "for": {
                                 "in": "Polygon"
+                            }
+                        },
+                        {
+                            "for": {
+                                "in": "IsLineOverlapsPolygon"
                             }
                         },
                         {
