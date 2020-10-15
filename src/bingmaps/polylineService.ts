@@ -22,6 +22,8 @@ class PolylineService {
       }
     }) as Microsoft.Maps.Polyline;
 
+    Microsoft.Maps.Events.addHandler(polyline, 'click', function () { console.log('createPolyline'); });
+
     return {
       polyline: polyline,
       data: dataView

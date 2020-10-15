@@ -1,12 +1,13 @@
 {
   "name": "visual",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "PowerBi custom visual for bing map",
   "dependencies": {
     "@types/bingmaps": "0.0.1",
     "@types/d3": "^3.5.41",
     "bingmaps": "^2.0.3",
     "d3": "^3.5.5",
+    "globalize": "^1.6.0",
     "powerbi-visuals-utils-dataviewutils": "1.2.0"
   },
   "scripts": {

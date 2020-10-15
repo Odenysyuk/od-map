@@ -23,6 +23,12 @@
             "kind": "GroupingOrMeasure"
         },
         {
+            "displayName": "Icon URL or SVG",
+            "description": "This field should contain an image URL, an SVG image",
+            "name": "IconUrl",
+            "kind": "GroupingOrMeasure"
+        },
+        {
             "displayName": "Line on top of Polygons",
             "description": "Line on top of Polygons",
             "name": "IsLineOverlapsPolygon",
@@ -753,6 +759,11 @@
                                 "in": "LineColor"
                             }
                         },
+                        {
+                            "for": {
+                                "in": "IconUrl"
+                            }
+                        },                        
                         {
                             "for": {
                                 "in": "PolygonCategory"

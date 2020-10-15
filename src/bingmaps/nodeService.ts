@@ -39,10 +39,12 @@ class NodeService {
             '" height="', (radius * 2), '"><circle cx="', radius, '" cy="', radius, '" r="',
             (radius - strokeWidth), '" stroke="', strokeColor, '" stroke-width="', strokeWidth, '" fill="', fillColor, '"/></svg>'];
         //Create a pushpin from the SVG and anchor it to the center of the circle.
-        return new Microsoft.Maps.Pushpin(location, {
+        var pushin = new Microsoft.Maps.Pushpin(location, {
             icon: svg.join(''),
             anchor: new Microsoft.Maps.Point(radius, radius)
         });
+        Microsoft.Maps.Events.addHandler(pushin, 'click', function () { console.log('CreateCirclePushpin'); });
+        return pushin;
     }
 
     private CreateArrowPushpin(heading, location, radius, fillColor, strokeColor, strokeWidth) {
@@ -52,10 +54,12 @@ class NodeService {
             '" height="', (radius * 2), '" transform="rotate(', heading, ')"', '> <polygon points="50,0 88,83 50,60 12,83" ', ' stroke="', strokeColor, '" stroke-width="', strokeWidth, '" fill="', fillColor, '"/></svg>'];
         //Create a pushpin from the SVG and anchor it to the center of the circle.
 
-        return new Microsoft.Maps.Pushpin(location, {
+        var pushin = new Microsoft.Maps.Pushpin(location, {
             icon: svg.join(''),
-            anchor: new Microsoft.Maps.Point(radius, radius)
+            anchor: new Microsoft.Maps.Point(radius, radius),
         });
+        Microsoft.Maps.Events.addHandler(pushin, 'click', function () { console.log('CreateArrowPushpin'); });
+        return pushin;
     }
 
     private getNodeSize(nodeSize: number, sizeFormat: NodeSizeFormat): number {

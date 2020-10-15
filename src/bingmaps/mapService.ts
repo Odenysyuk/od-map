@@ -259,7 +259,6 @@ class MapController {
     }
 
     async setBestView() {
-        debugger;
         let primitive: Microsoft.Maps.IPrimitive[] = [];
         primitive = primitive.concat(this._polylines);
         primitive = primitive.concat(this._polygons);

@@ -1,14 +1,18 @@
+import ISelectionIdBuilder = powerbi.visuals.ISelectionIdBuilder;
+
 class MapView {
     public Category: DataLabel;
     public Linestring: string = "";
     public Size: number = 0;
     public LineColor: string = "";
+    public IconUrl: string = "";
     public PolygonCategory: DataLabel;
     public Polygon: string = "";
     public PolygonColor: string = "";
     public Tooltip: DataLabel;
     public DataLabel: DataLabel;
     public IsLineOverlapsPolygon: boolean;
+    public SelectionId: ISelectionIdBuilder
 }
 
 class LocationModel {

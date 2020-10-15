@@ -23,6 +23,7 @@
  *  OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
  *  THE SOFTWARE.
  */
+// powerbi.visuals
 let mapctl: MapController;
 function init(div: HTMLDivElement, setting: MapView[], format: VisualFormat) {
   if (!mapctl) {
@@ -45,7 +46,9 @@ module powerbi.extensibility.visual {
     private viewModel: MapView[];
     private visualSettings: VisualSettings;
 
+
     constructor(options: VisualConstructorOptions) {
+      debugger;
       this.host = options.host;
       this.divMap = d3.select(options.element)
         .append('div')
@@ -54,6 +57,7 @@ module powerbi.extensibility.visual {
     }
 
     public update(options: VisualUpdateOptions) {
+      debugger;
       let dataView = VisualSettings.parse<VisualSettings>(options.dataViews[0] || {} as powerbi.DataView);      
       this.visualSettings = dataView;
       try {
@@ -94,6 +98,8 @@ module powerbi.extensibility.visual {
             }
           }
         });
+
+        polyline.SelectionId = this.host.createSelectionIdBuilder().withTable(dv[0].table, i);         
         viewModel.push(polyline);
       }
       return viewModel;
