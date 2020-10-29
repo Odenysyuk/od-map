@@ -1,10 +1,10 @@
 {
   "visual": {
     "name": "oDmap",
-    "displayName": "OD map",
-    "guid": "oDmapD5AA58DF977C4921BDDC0050BFF97A2B",
+    "displayName": "OD Map",
+    "guid": "oDmapD5AA58DF977C4921BDDC0050BFF97A2B1",
     "visualClassName": "Visual",
-    "version": "1.0.0",
+    "version": "1.1.0",
     "description": "",
     "supportUrl": "",
     "gitHubUrl": ""

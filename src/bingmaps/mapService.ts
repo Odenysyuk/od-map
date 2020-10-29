@@ -68,7 +68,7 @@ class MapController {
             showDashboard: false,
             showTermsLink: false,
             showLogo: false,
-            customMapStyle: this.customStyle(),
+           // customMapStyle: this.customStyle(),
             mapTypeId: this.mapType(fm.mapLayers),
             liteMode: false
         } as Microsoft.Maps.IMapLoadOptions;

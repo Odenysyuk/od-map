@@ -616,7 +616,7 @@ var MapController = (function () {
             showDashboard: false,
             showTermsLink: false,
             showLogo: false,
-            customMapStyle: this.customStyle(),
+            // customMapStyle: this.customStyle(),
             mapTypeId: this.mapType(fm.mapLayers),
             liteMode: false
         };
@@ -1332,8 +1332,8 @@ var powerbi;
     (function (extensibility) {
         var visual;
         (function (visual) {
-            var oDmapD5AA58DF977C4921BDDC0050BFF97A2B;
-            (function (oDmapD5AA58DF977C4921BDDC0050BFF97A2B) {
+            var oDmapD5AA58DF977C4921BDDC0050BFF97A2B1;
+            (function (oDmapD5AA58DF977C4921BDDC0050BFF97A2B1) {
                 "use strict";
                 var DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
                 var LineColoringSettings = (function () {
@@ -1348,7 +1348,7 @@ var powerbi;
                     }
                     return LineColoringSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.LineColoringSettings = LineColoringSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.LineColoringSettings = LineColoringSettings;
                 var TextSettings = (function () {
                     function TextSettings() {
                         this.show = false;
@@ -1359,7 +1359,7 @@ var powerbi;
                     }
                     return TextSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.TextSettings = TextSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.TextSettings = TextSettings;
                 var PolygonLabelSettings = (function () {
                     function PolygonLabelSettings() {
                         this.show = false;
@@ -1370,7 +1370,7 @@ var powerbi;
                     }
                     return PolygonLabelSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.PolygonLabelSettings = PolygonLabelSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.PolygonLabelSettings = PolygonLabelSettings;
                 var DataLabelSettings = (function () {
                     function DataLabelSettings() {
                         this.show = false;
@@ -1381,14 +1381,14 @@ var powerbi;
                     }
                     return DataLabelSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.DataLabelSettings = DataLabelSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.DataLabelSettings = DataLabelSettings;
                 var MapLayerSettings = (function () {
                     function MapLayerSettings() {
                         this.type = "road";
                     }
                     return MapLayerSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.MapLayerSettings = MapLayerSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.MapLayerSettings = MapLayerSettings;
                 var NodeSettings = (function () {
                     function NodeSettings() {
                         this.transparency = 0;
@@ -1396,7 +1396,7 @@ var powerbi;
                     }
                     return NodeSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.NodeSettings = NodeSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.NodeSettings = NodeSettings;
                 var NodeSizeSettings = (function () {
                     function NodeSizeSettings() {
                         this.show = true;
@@ -1406,7 +1406,7 @@ var powerbi;
                     }
                     return NodeSizeSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.NodeSizeSettings = NodeSizeSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.NodeSizeSettings = NodeSizeSettings;
                 var PolygonSettings = (function () {
                     function PolygonSettings() {
                         this.show = false;
@@ -1416,7 +1416,7 @@ var powerbi;
                     }
                     return PolygonSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.PolygonSettings = PolygonSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.PolygonSettings = PolygonSettings;
                 var PolygonColoringSettings = (function () {
                     function PolygonColoringSettings() {
                         this.minColor = "#00FF46";
@@ -1428,7 +1428,7 @@ var powerbi;
                     }
                     return PolygonColoringSettings;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.PolygonColoringSettings = PolygonColoringSettings;
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.PolygonColoringSettings = PolygonColoringSettings;
                 var VisualSettings = (function (_super) {
                     __extends(VisualSettings, _super);
                     function VisualSettings() {
@@ -1447,8 +1447,8 @@ var powerbi;
                     }
                     return VisualSettings;
                 }(DataViewObjectsParser));
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.VisualSettings = VisualSettings;
-            })(oDmapD5AA58DF977C4921BDDC0050BFF97A2B = visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B || (visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B = {}));
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.VisualSettings = VisualSettings;
+            })(oDmapD5AA58DF977C4921BDDC0050BFF97A2B1 = visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B1 || (visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B1 = {}));
         })(visual = extensibility.visual || (extensibility.visual = {}));
     })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
 })(powerbi || (powerbi = {}));
@@ -1492,8 +1492,8 @@ var powerbi;
     (function (extensibility) {
         var visual;
         (function (visual) {
-            var oDmapD5AA58DF977C4921BDDC0050BFF97A2B;
-            (function (oDmapD5AA58DF977C4921BDDC0050BFF97A2B) {
+            var oDmapD5AA58DF977C4921BDDC0050BFF97A2B1;
+            (function (oDmapD5AA58DF977C4921BDDC0050BFF97A2B1) {
                 "use strict";
                 var Visual = (function () {
                     function Visual(options) {
@@ -1505,7 +1505,7 @@ var powerbi;
                             .attr({ id: "map_id" });
                     }
                     Visual.prototype.update = function (options) {
-                        var dataView = oDmapD5AA58DF977C4921BDDC0050BFF97A2B.VisualSettings.parse(options.dataViews[0] || {});
+                        var dataView = oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.VisualSettings.parse(options.dataViews[0] || {});
                         this.visualSettings = dataView;
                         try {
                             this.viewModel = this.getViewModel(options);
@@ -1551,8 +1551,8 @@ var powerbi;
                         return viewModel;
                     };
                     Visual.prototype.enumerateObjectInstances = function (options) {
-                        var settings = this.visualSettings || oDmapD5AA58DF977C4921BDDC0050BFF97A2B.VisualSettings.getDefault();
-                        var visualObjects = oDmapD5AA58DF977C4921BDDC0050BFF97A2B.VisualSettings.enumerateObjectInstances(settings, options);
+                        var settings = this.visualSettings || oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.VisualSettings.getDefault();
+                        var visualObjects = oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.VisualSettings.enumerateObjectInstances(settings, options);
                         var propeties = visualObjects.instances[0].properties;
                         switch (options.objectName) {
                             case 'lineColoring': {
@@ -1581,8 +1581,8 @@ var powerbi;
                     };
                     return Visual;
                 }());
-                oDmapD5AA58DF977C4921BDDC0050BFF97A2B.Visual = Visual;
-            })(oDmapD5AA58DF977C4921BDDC0050BFF97A2B = visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B || (visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B = {}));
+                oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.Visual = Visual;
+            })(oDmapD5AA58DF977C4921BDDC0050BFF97A2B1 = visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B1 || (visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B1 = {}));
         })(visual = extensibility.visual || (extensibility.visual = {}));
     })(extensibility = powerbi.extensibility || (powerbi.extensibility = {}));
 })(powerbi || (powerbi = {}));
@@ -1592,13 +1592,13 @@ var powerbi;
     (function (visuals) {
         var plugins;
         (function (plugins) {
-            plugins.oDmapD5AA58DF977C4921BDDC0050BFF97A2B = {
-                name: 'oDmapD5AA58DF977C4921BDDC0050BFF97A2B',
-                displayName: 'OD map',
+            plugins.oDmapD5AA58DF977C4921BDDC0050BFF97A2B1 = {
+                name: 'oDmapD5AA58DF977C4921BDDC0050BFF97A2B1',
+                displayName: 'OD Map',
                 class: 'Visual',
-                version: '1.0.0',
+                version: '1.1.0',
                 apiVersion: '2.3.0',
-                create: function (options) { return new powerbi.extensibility.visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B.Visual(options); },
+                create: function (options) { return new powerbi.extensibility.visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B1.Visual(options); },
                 custom: true
             };
         })(plugins = visuals.plugins || (visuals.plugins = {}));

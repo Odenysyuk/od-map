@@ -33,8 +33,8 @@ function init(div: HTMLDivElement, setting: MapView[], format: VisualFormat) {
   }
 }
 
-module powerbi.extensibility.visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B  {
-  "use strict";
+module powerbi.extensibility.visual.oDmapD5AA58DF977C4921BDDC0050BFF97A2B1  {
+"use strict";
 
   export class Visual implements IVisual {
     private host: IVisualHost;
