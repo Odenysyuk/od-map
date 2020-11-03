@@ -6,15 +6,16 @@ import { LineFormat } from "../formatModel";
 import { ColorGeneration } from "./colorGeneration";
 import powerbi from "powerbi-visuals-api";
 import ISelectionManager = powerbi.extensibility.ISelectionManager;
+import { KeyboardHandler } from './keyboardHandler';
 
 export class PolylineService {
-  private readonly _lineColorDefault: string;
-  private readonly _strokeThicknessDefault: number;
+  private readonly lineColorDefault: string;
+  private readonly strokeThicknessDefault: number;
   private readonly selectionManager: ISelectionManager;
 
   constructor(selectionManager: ISelectionManager) {
-    this._lineColorDefault = "#0700FF";
-    this._strokeThicknessDefault = 3;
+    this.lineColorDefault = "#0700FF";
+    this.strokeThicknessDefault = 3;
     this.selectionManager = selectionManager;
   }
 
@@ -31,14 +32,17 @@ export class PolylineService {
   private createPolyline(dataView: MapView, format: LineFormat, colorGeneration: ColorGeneration): PolylineModel {
 
     var polyline = Microsoft.Maps.WellKnownText.read(dataView.Linestring,
-      {
-        polylineOptions: {
-          strokeColor: colorGeneration.getColor(dataView.LineColor || this._lineColorDefault, format.transparency),
-          strokeThickness: this._strokeThicknessDefault
-        }
-      }) as Microsoft.Maps.Polyline;
+    {
+      polylineOptions: {
+        strokeColor: colorGeneration.getColor(dataView.LineColor || this.lineColorDefault, format.transparency),
+        strokeThickness: this.strokeThicknessDefault
+      }
+    }) as Microsoft.Maps.Polyline;
 
-    Microsoft.Maps.Events.addHandler(polyline, 'click', function () { console.log('createPolyline'); });
+    Microsoft.Maps.Events.addHandler(polyline, 'click', () => 
+    {
+        this.selectionManager.select(dataView.SelectionId, KeyboardHandler.CTRL_IS_PRESSED);
+    });
 
     return {
       polyline: polyline,

@@ -5,6 +5,7 @@ import { LocationModel } from "../models";
 import { ColorGeneration } from "./colorGeneration";
 import powerbi from "powerbi-visuals-api";
 import ISelectionManager = powerbi.extensibility.ISelectionManager;
+import { KeyboardHandler } from "./keyboardHandler";
 
 export class NodeService {
     private readonly strokeWidthDefault: number;
@@ -62,8 +63,8 @@ export class NodeService {
         });
         
         Microsoft.Maps.Events.addHandler(pushin, 'click', () => 
-        {
-            this.selectionManager.select(model.data.SelectionId)
+        { 
+            this.selectionManager.select(model.data.SelectionId, KeyboardHandler.CTRL_IS_PRESSED);
         });
         return pushin;
     }
@@ -79,11 +80,12 @@ export class NodeService {
             icon: svg.join(''),
             anchor: new Microsoft.Maps.Point(radius, radius),
         });
-        debugger;
+
         Microsoft.Maps.Events.addHandler(pushin, 'click', () => 
         {
-            this.selectionManager.select(node.data.SelectionId)
+            this.selectionManager.select(node.data.SelectionId, KeyboardHandler.CTRL_IS_PRESSED);
         });
+
         return pushin;
     }
 

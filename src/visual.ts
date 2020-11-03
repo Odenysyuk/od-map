@@ -1,3 +1,4 @@
+import { KeyboardHandler } from './bingmaps/keyboardHandler';
 /*
  *  Power BI Visual CLI
  *
@@ -60,6 +61,7 @@ export class Visual implements IVisual {
 
     debugger;
     this.selectionManager = this.host.createSelectionManager();
+    KeyboardHandler.INIT();
 
     loadBingApi(AppSetting.BING_MAP_KEY).then(() => {
       this.mapController = new MapController(this.divMap.node() as HTMLDivElement, this.selectionManager);
