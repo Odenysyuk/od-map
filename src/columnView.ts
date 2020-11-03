@@ -1,4 +1,6 @@
-class ColumnView{
+"use strict";
+
+export class ColumnView{
     static Category: string = "Category"
     static Size: string = "Size"
     static LineColor: string = "LineColor"

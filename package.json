@@ -1,20 +1,28 @@
 {
   "name": "visual",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "PowerBi custom visual for bing map",
+  "scripts": {
+    "pbiviz": "pbiviz",
+    "start": "pbiviz start",
+    "package": "pbiviz package",
+    "lint": "tslint -r \"node_modules/tslint-microsoft-contrib\" \"+(src|test)/**/*.ts\""
+  },
   "dependencies": {
     "@types/bingmaps": "0.0.1",
     "@types/d3": "^3.5.41",
     "bingmaps": "^2.0.3",
     "d3": "^3.5.5",
     "globalize": "^1.6.0",
-    "powerbi-visuals-utils-dataviewutils": "1.2.0"
+    "powerbi-visuals-api": "^2.6.2",
+    "powerbi-visuals-utils-dataviewutils": "2.0.1"
   },
-  "scripts": {
-    "watch": "concurrent \"npm run tsc\" \"npm run pbi\"",
-    "tsc": "tsc -w",
-    "pbi": "pbiviz start"
+  "devDependencies": {
+    "tslint": "^5.1.0",
+    "tslint-microsoft-contrib": "^6.2.0",
+    "typescript": "^3.8.3"
   },
   "author": "MobiTeam",
-  "license": "ISC"
+  "license": "ISC",
+  "private": true
 }

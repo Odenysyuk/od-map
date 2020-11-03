@@ -1,4 +1,6 @@
-class TooltipService {
+"use strict";
+
+export class TooltipService {
 
     private tooltip: Microsoft.Maps.Infobox;
     private tooltipTemplate: string;

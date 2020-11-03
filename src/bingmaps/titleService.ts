@@ -1,5 +1,9 @@
-class TitleSevice {
+"use strict";
 
+import { NodeSizeFormat, TextLabelFormat } from "../formatModel";
+import { LocationModel, PolygonModel, PolylineModel } from "../models";
+
+export class TitleService {         
     private readonly _textColorDefault: string;;
     private readonly _fontSizeDefault: number;
     private readonly _fontFamilyDefault: string;

@@ -1,30 +1,45 @@
-class PolygonService {
+import { ColoringFormat } from './../formatModel';
+import { PolygonFormat } from "../formatModel";
+import { MapView, PolygonModel } from "../models";
+import { ColorGeneration } from "./colorGeneration";
+import powerbi from "powerbi-visuals-api";
+import ISelectionManager = powerbi.extensibility.ISelectionManager;
+import { ColumnView } from "../columnView";
+
+export class PolygonService {
+    
     private readonly _strokeThicknessDefault: number;
-    private readonly colorGeneration: ColoringGeneration;
+    private readonly selectionManager: ISelectionManager;
 
-    constructor(colorGeneration: ColoringGeneration) {
-        this.colorGeneration = colorGeneration;
+    constructor(selectionManager: ISelectionManager) {
         this._strokeThicknessDefault = 2
+        this.selectionManager = selectionManager;
     }
 
-    public draw(data: MapView[], format: PolygonFormat): PolygonModel[] {
+    public draw(data: MapView[], format: PolygonFormat, polygonColoring: ColoringFormat): PolygonModel[] {   
+        let colorGeneration = this.getColorGenerator(data, polygonColoring);
         let strokeThickness = format.showline ? this._strokeThicknessDefault : 0;
-        return data.filter(x => x.Polygon).map(item => this.createPolygon(item, format, strokeThickness));
+        return data.filter(x => x.Polygon).map(item => this.createPolygon(item, format, strokeThickness, colorGeneration));
     }
 
-    private createPolygon(item: MapView, format: PolygonFormat, strokeThickness: number): PolygonModel {
+    private getColorGenerator(data: MapView[], polygonColoring: ColoringFormat): ColorGeneration {
+        let colorValues = data.map(x => Number(x[ColumnView.PolygonColor])).filter(x => !isNaN(x));
+        return new ColorGeneration(polygonColoring, colorValues);
+    }
+
+    private createPolygon(item: MapView, format: PolygonFormat, strokeThickness: number, colorGeneration: ColorGeneration): PolygonModel {
         const polygonColor = item.PolygonColor || format.color;
         const polygon = Microsoft.Maps.WellKnownText.read(item.Polygon, {
             polygonOptions: {
-                strokeColor: this.colorGeneration.getColor(polygonColor),
+                strokeColor: colorGeneration.getColor(polygonColor),
                 strokeThickness: strokeThickness,
-                fillColor: this.colorGeneration.getColor(polygonColor, format.transparency)
+                fillColor: colorGeneration.getColor(polygonColor, format.transparency)
             }
         }) as Microsoft.Maps.Polygon;
         return { data: item, polygon: polygon };
     }
 
-    public darwLabel(data: PolygonModel[]): Microsoft.Maps.Pushpin[]{
+    public drawLabel(data: PolygonModel[]): Microsoft.Maps.Pushpin[]{
         return data.map(item => {
             return this.addLabelToPolygon(item.polygon, item.data.PolygonCategory.toString())
         });

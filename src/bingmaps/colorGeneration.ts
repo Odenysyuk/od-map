@@ -1,22 +1,26 @@
-class ColoringGeneration {
+import { LocationModel } from './../models';
+import { ColoringFormat } from "../formatModel";
+import { RgbColor } from "./rgbColor";
 
-    protected coloringFormat: ColoringFormat;
-    protected colorValues: number[] = [];    
+export class ColorGeneration {
+
+    protected coloringFormat: ColoringFormat;   
     private minColorValues: number = 0; 
     private maxColorValues: number = 0;    
 
-    constructor(colorGenerator: ColoringFormat) {
+    constructor(colorGenerator: ColoringFormat, colorValues: number[]) {
         this.coloringFormat = colorGenerator;
+        this.minColorValues = Math.min(...colorValues);
+        this.maxColorValues = Math.max(...colorValues);  
     }
 
     public setColoringFormat(format: ColoringFormat) {
         this.coloringFormat = format;
     }
  
-    public setColorColumn(modelView: MapView[], propertyName: string) {
-       this.colorValues = modelView.map(x => Number(x[propertyName])).filter(x => !isNaN(x)); 
-       this.minColorValues = Math.min(...this.colorValues);
-       this.maxColorValues = Math.max(...this.colorValues);    
+    public setColorColumn(colorValues: number[]) {
+       this.minColorValues = Math.min(...colorValues);
+       this.maxColorValues = Math.max(...colorValues);    
     }
 
     public getColor(colorValue: string, transparency: number = 100): string {

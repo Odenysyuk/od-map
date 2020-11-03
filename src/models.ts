@@ -1,6 +1,9 @@
+"use strict";
+import powerbi from "powerbi-visuals-api";
+import { ColumnView } from "./columnView";
 import ISelectionIdBuilder = powerbi.visuals.ISelectionIdBuilder;
 
-class MapView {
+export class MapView {
     public Category: DataLabel;
     public Linestring: string = "";
     public Size: number = 0;
@@ -15,22 +18,22 @@ class MapView {
     public SelectionId: ISelectionIdBuilder
 }
 
-class LocationModel {
+export class LocationModel {
     public location: Microsoft.Maps.Location | Microsoft.Maps.Location[];
     public data: MapView;
 }
 
-class PolylineModel {
+export class PolylineModel {
     public polyline: Microsoft.Maps.Polyline;
     public data: MapView
 }
 
-class PolygonModel {
+export class PolygonModel {
     public polygon: Microsoft.Maps.Polygon;
     public data: MapView
 }
 
-class DataLabel{
+export class DataLabel{
     public fieldName: string;
     public value: any;
 

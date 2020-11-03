@@ -2,28 +2,26 @@
     "visual": {
         "name": "oDmap",
         "displayName": "OD map",
-        "guid": "oDmapD5AA58DF977C4921BDDC0050BFF97A2B",
+        "guid": "ODmap5AA58DF977C4921BDDC0050BFF97A2B",
         "visualClassName": "Visual",
-        "version": "1.0.1",
-        "description": "",
-        "supportUrl": "",
-        "gitHubUrl": ""
+        "version": "1.0.2",
+        "description": "PowerBi custom visual for bing map",
+        "supportUrl": "https://github.com/",
+        "gitHubUrl": "https://github.com/"
     },
-    "apiVersion": "2.5.0",
+    "apiVersion": "2.6.2",
     "author": {
-        "name": "",
-        "email": ""
+        "name": "olena",
+        "email": "olena.denysiuk@mobilityinsight.net"
     },
     "assets": {
         "icon": "assets/moby-icon.png"
     },
     "externalJS": [
-        "node_modules/powerbi-visuals-utils-dataviewutils/lib/index.js",
-        "node_modules/d3/d3.min.js",
-        "node_modules/bingmaps/index.js"
+ 
     ],
     "style": "style/visual.less",
     "capabilities": "capabilities.json",
-    "dependencies": "dependencies.json",
+    "dependencies": null,
     "stringResources": []
 }

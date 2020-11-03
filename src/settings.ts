@@ -24,86 +24,85 @@
  *  THE SOFTWARE.
  */
 
-module powerbi.extensibility.visual {
-    "use strict";
-    import DataViewObjectsParser = powerbi.extensibility.utils.dataview.DataViewObjectsParser;
+"use strict";
+import { dataViewObjectsParser } from "powerbi-visuals-utils-dataviewutils";
+import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
 
-    export class LineColoringSettings{        
-        public minColor: string = "#00FF46";
-        public centerColor: string = "#FFCA00";
-        public maxColor: string = "#FF1912";
-        public gradient: boolean = false;
-        public colorMinValue: number = 0;
-        public colorMaxValue: number = 80;
-        public transparency: number = 100;
-    }
+export class LineColoringSettings {
+    public minColor: string = "#00FF46";
+    public centerColor: string = "#FFCA00";
+    public maxColor: string = "#FF1912";
+    public gradient: boolean = false;
+    public colorMinValue: number = 0;
+    public colorMaxValue: number = 80;
+    public transparency: number = 100;
+}
 
-    export class TextSettings{
-        public show: boolean = false;
-        public fontType: string = "helvetica, arial, sans-serif";
-        public fontSize: number = 10;
-        public fontColor: string = "#7F898A";
-        public textAlignment: string = "center";
-    }
-    
-    export class PolygonLabelSettings{
-        public show: boolean = false;
-        public fontType: string = "helvetica, arial, sans-serif";
-        public fontSize: number = 10;
-        public fontColor: string = "#293537";
-        public textAlignment: string = "center";
-    }
+export class TextSettings {
+    public show: boolean = false;
+    public fontType: string = "helvetica, arial, sans-serif";
+    public fontSize: number = 10;
+    public fontColor: string = "#7F898A";
+    public textAlignment: string = "center";
+}
 
-    export class DataLabelSettings{
-        public show: boolean = false;
-        public fontType: string = "helvetica, arial, sans-serif";
-        public fontSize: number = 10;
-        public fontColor: string = "#293537";
-        public textAlignment: string = "center";
-    }
+export class PolygonLabelSettings {
+    public show: boolean = false;
+    public fontType: string = "helvetica, arial, sans-serif";
+    public fontSize: number = 10;
+    public fontColor: string = "#293537";
+    public textAlignment: string = "center";
+}
 
-    export class MapLayerSettings{
-        public type: string = "road";
-    }
+export class DataLabelSettings {
+    public show: boolean = false;
+    public fontType: string = "helvetica, arial, sans-serif";
+    public fontSize: number = 10;
+    public fontColor: string = "#293537";
+    public textAlignment: string = "center";
+}
 
-    export class NodeSettings{
-        public transparency: number = 0;
-        public showNodeLine: boolean = true;
-    }
+export class MapLayerSettings {
+    public type: string = "road";
+}
 
-    export class NodeSizeSettings{
-        public show: boolean = true;
-        public changedSize: boolean = false;
-        public minValue: number = 0;
-        public maxValue: number = 20;
-    }
+export class NodeSettings {
+    public transparency: number = 0;
+    public showNodeLine: boolean = true;
+}
 
-    export class PolygonSettings{
-        public show: boolean = false;
-        public showline: boolean = true;
-        public color: string = "0052FF";        
-        public transparency: number = 50;
-    }
+export class NodeSizeSettings {
+    public show: boolean = true;
+    public changedSize: boolean = false;
+    public minValue: number = 0;
+    public maxValue: number = 20;
+}
 
-    export class PolygonColoringSettings{    
-         public minColor: string = "#00FF46";
-         public centerColor: string = "#FFCA00";
-         public maxColor: string = "#FF1912";
-         public gradient: boolean = false;
-         public colorMinValue: number = 0;
-         public colorMaxValue: number = 80;
-     }
+export class PolygonSettings {
+    public show: boolean = false;
+    public showline: boolean = true;
+    public color: string = "0052FF";
+    public transparency: number = 50;
+}
 
-    export class VisualSettings extends DataViewObjectsParser {
-       public category: TextSettings = new TextSettings();
-       public mapLayers: MapLayerSettings = new MapLayerSettings();
-       public lineColoring: LineColoringSettings = new LineColoringSettings();
-       public node: NodeSettings = new NodeSettings();
-       public oridinNode: NodeSizeSettings = new NodeSizeSettings();
-       public destinationNode: NodeSizeSettings = new NodeSizeSettings();
-       public polygon: PolygonSettings = new PolygonSettings();
-       public polygonLabel: PolygonLabelSettings = new PolygonLabelSettings();
-       public polygonColoring: PolygonColoringSettings = new PolygonColoringSettings();
-       public dataLabel: DataLabelSettings = new DataLabelSettings();       
-    }
+export class PolygonColoringSettings {
+    public minColor: string = "#00FF46";
+    public centerColor: string = "#FFCA00";
+    public maxColor: string = "#FF1912";
+    public gradient: boolean = false;
+    public colorMinValue: number = 0;
+    public colorMaxValue: number = 80;
+}
+
+export class VisualSettings extends DataViewObjectsParser {
+    public category: TextSettings = new TextSettings();
+    public mapLayers: MapLayerSettings = new MapLayerSettings();
+    public lineColoring: LineColoringSettings = new LineColoringSettings();
+    public node: NodeSettings = new NodeSettings();
+    public oridinNode: NodeSizeSettings = new NodeSizeSettings();
+    public destinationNode: NodeSizeSettings = new NodeSizeSettings();
+    public polygon: PolygonSettings = new PolygonSettings();
+    public polygonLabel: PolygonLabelSettings = new PolygonLabelSettings();
+    public polygonColoring: PolygonColoringSettings = new PolygonColoringSettings();
+    public dataLabel: DataLabelSettings = new DataLabelSettings();
 }
