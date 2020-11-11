@@ -228,6 +228,23 @@
                 }
             }
         },
+        "mapZoom": {
+            "displayName": "Zoom Map",
+            "properties": {
+                "show": {
+                    "displayName": "Turn on/off",
+                    "type": {
+                        "bool": true
+                    }
+                },
+                "value": {
+                    "displayName": "Zoom Value",
+                    "type": {
+                        "numeric": true
+                    }
+                }
+            }
+        },
         "lineColoring": {
             "displayName": "Line Coloring",
             "properties": {

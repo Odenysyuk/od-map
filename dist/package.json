@@ -1,0 +1,17 @@
+{
+    "version": "1.2.0",
+    "author": {"name":"olena","email":"olena.denysiuk@mobilityinsight.net"},
+    "resources": [
+        {
+            "resourceId": "rId0",
+            "sourceType": 5,
+            "file": "resources/ODmap5AA58DF977C4921BDDC0050BFF97A2B.pbiviz.json"
+        }
+    ],
+    "visual": {"name":"oDmap","displayName":"OD map","guid":"ODmap5AA58DF977C4921BDDC0050BFF97A2B","visualClassName":"Visual","version":"1.2.0","description":"PowerBi custom visual for bing map","supportUrl":"https://github.com/","gitHubUrl":"https://github.com/"},
+    "metadata": {
+        "pbivizjson": {
+            "resourceId": "rId0"
+        }
+    }  
+}

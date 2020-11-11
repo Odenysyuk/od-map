@@ -31,6 +31,13 @@ export class PolylineService {
 
   private createPolyline(dataView: MapView, format: LineFormat, colorGeneration: ColorGeneration): PolylineModel {
 
+    if (this.selectionManager.hasSelection){
+      var ids = this.selectionManager.getSelectionIds();
+      if(ids){
+
+      }
+    }
+
     var polyline = Microsoft.Maps.WellKnownText.read(dataView.Linestring,
     {
       polylineOptions: {

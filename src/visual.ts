@@ -59,10 +59,9 @@ export class Visual implements IVisual {
                   .classed('map', true)
                   .attr({ id: "map_id" });
 
-    debugger;
     this.selectionManager = this.host.createSelectionManager();
     KeyboardHandler.INIT();
-
+    
     loadBingApi(AppSetting.BING_MAP_KEY).then(() => {
       this.mapController = new MapController(this.divMap.node() as HTMLDivElement, this.selectionManager);
       if(this.viewModel && this.visualSettings){
@@ -72,6 +71,7 @@ export class Visual implements IVisual {
   }
 
   public update(options: VisualUpdateOptions) {
+    debugger;
     let dataView = VisualSettings.parse<VisualSettings>(options.dataViews[0] || {} as powerbi.DataView);      
     this.visualSettings = dataView;
 

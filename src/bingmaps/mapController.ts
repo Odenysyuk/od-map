@@ -3,7 +3,7 @@ import { Visual } from './../visual';
 
 import { AppSetting } from './../appSetting';
 import { ColumnView } from "../columnView";
-import { MapLayerFormat, VisualFormat } from "../formatModel";
+import { MapLayerFormat, ZoomFormat, VisualFormat } from "../formatModel";
 import { LocationModel, MapView, PolylineModel } from "../models";
 import { ColorGeneration } from "./colorGeneration";
 import { NodeService } from "./nodeService";
@@ -135,7 +135,7 @@ export class MapController {
         this._map.layers.insert(this.layerBehind);
         this._map.layers.insert(this.layerFront);
 
-        await this.setBestView();
+        await this.setBestView(format.mapZoom);
     }
 
     async drawPolygonData(layer: Microsoft.Maps.Layer, format: VisualFormat, data: MapView[]) {
@@ -204,12 +204,18 @@ export class MapController {
         }
     }
 
-    async setBestView() {
+    async setBestView(mapZoom: ZoomFormat) {
         let primitive: Microsoft.Maps.IPrimitive[] = [];
         primitive = primitive.concat(this._polylines);
         primitive = primitive.concat(this._polygons);
         var vbounds = Microsoft.Maps.LocationRect.fromShapes(primitive);
-        this._map.setView({ bounds: vbounds, padding: 5 });
+
+        if(mapZoom && mapZoom.show) {
+            this._map.setView({ center: vbounds.center, zoom: mapZoom.value, padding: 5 });
+        }
+        else {
+            this._map.setView({ bounds: vbounds, padding: 5 });
+        }
     }
 
     private getOriginNotes(polylines: PolylineModel[]): LocationModel[] {

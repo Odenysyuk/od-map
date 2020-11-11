@@ -56,11 +56,12 @@ export class NodeService {
         const svg = ['<svg xmlns="http://www.w3.org/2000/svg" width="', (radius * 2),
             '" height="', (radius * 2), '"><circle cx="', radius, '" cy="', radius, '" r="',
             (radius - strokeWidth), '" stroke="', strokeColor, '" stroke-width="', strokeWidth, '" fill="', fillColor, '"/></svg>'];
-        //Create a pushpin from the SVG and anchor it to the center of the circle.
+        //Create a pushpin from the SVG and anchor it to the center of the circle.                        
         var pushin = new Microsoft.Maps.Pushpin(model.location as Microsoft.Maps.Location, {
-            icon: svg.join(''),
+            icon: model.data.IconUrl || svg.join(''),
+            iconSize: { width: radius * 2, height: radius * 2 },
             anchor: new Microsoft.Maps.Point(radius, radius)
-        });
+        } as any);
         
         Microsoft.Maps.Events.addHandler(pushin, 'click', () => 
         { 
@@ -70,6 +71,7 @@ export class NodeService {
     }
 
     private createArrowPushpin(node: LocationModel, heading, location, radius, fillColor, strokeColor, strokeWidth) {
+        
         strokeWidth = strokeWidth || this.strokeWidthDefault;
         //Create an SVG string of a circle with the specified radius and color.
         var svg = ['<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="', (radius * 2),
@@ -77,9 +79,13 @@ export class NodeService {
         //Create a pushpin from the SVG and anchor it to the center of the circle.
 
         var pushin = new Microsoft.Maps.Pushpin(location, {
-            icon: svg.join(''),
+            icon: node.data.IconUrl || svg.join(''),
+            iconSize: { width: radius * 2, height: radius * 2 },
             anchor: new Microsoft.Maps.Point(radius, radius),
-        });
+            
+            //visible: false,
+
+        } as any);
 
         Microsoft.Maps.Events.addHandler(pushin, 'click', () => 
         {

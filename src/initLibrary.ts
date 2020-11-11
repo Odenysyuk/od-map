@@ -7,6 +7,7 @@ export let Microsoft: any;
 
 
 export function loadBingApi(key?: string): Promise<void> {
+  
   const callbackName = "bingAPIReady";
   let url = `https://www.bing.com/api/maps/mapcontrol?callback=${callbackName}`;
   if (key) {

@@ -4,7 +4,7 @@
         "displayName": "OD map",
         "guid": "ODmap5AA58DF977C4921BDDC0050BFF97A2B",
         "visualClassName": "Visual",
-        "version": "1.0.2",
+        "version": "1.2.0",
         "description": "PowerBi custom visual for bing map",
         "supportUrl": "https://github.com/",
         "gitHubUrl": "https://github.com/"
@@ -17,9 +17,7 @@
     "assets": {
         "icon": "assets/moby-icon.png"
     },
-    "externalJS": [
- 
-    ],
+    "externalJS": [],
     "style": "style/visual.less",
     "capabilities": "capabilities.json",
     "dependencies": null,

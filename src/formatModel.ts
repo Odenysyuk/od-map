@@ -44,9 +44,15 @@ export interface NodeSizeFormat {
     maxValue: number;
 }
 
+export interface ZoomFormat {
+    show: boolean;
+    value: number;
+}
+
 export interface VisualFormat {
     category: TextLabelFormat;
     mapLayers: MapLayerFormat;
+    mapZoom: ZoomFormat;
     lineColoring: LineFormat;
     node: NodeFormat;
     oridinNode: NodeSizeFormat;

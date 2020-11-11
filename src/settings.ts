@@ -94,9 +94,15 @@ export class PolygonColoringSettings {
     public colorMaxValue: number = 80;
 }
 
+export class ZoomSettings {
+    public show: boolean = false;
+    public value: number = 15;
+}
+
 export class VisualSettings extends DataViewObjectsParser {
     public category: TextSettings = new TextSettings();
     public mapLayers: MapLayerSettings = new MapLayerSettings();
+    public mapZoom: ZoomSettings = new ZoomSettings();
     public lineColoring: LineColoringSettings = new LineColoringSettings();
     public node: NodeSettings = new NodeSettings();
     public oridinNode: NodeSizeSettings = new NodeSizeSettings();

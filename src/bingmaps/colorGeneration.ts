@@ -27,7 +27,7 @@ export class ColorGeneration {
         let colorNumber = Number(colorValue);
         if (isNaN(colorNumber)) {
             let colorHex = RgbColor.hexToRgb(colorValue, transparency / 100);
-            return colorHex.toString();
+            return colorHex && colorHex.toString();
         }
 
         if (this.coloringFormat.gradient) {
