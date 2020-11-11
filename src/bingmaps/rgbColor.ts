@@ -1,4 +1,6 @@
-class RgbColor {
+"use strict";
+
+export class RgbColor {
     public Red: number = 0;
     public Green: number = 0;
     public Blue: number = 0;

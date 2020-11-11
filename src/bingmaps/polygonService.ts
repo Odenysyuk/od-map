@@ -1,37 +1,57 @@
-class PolygonService {
+import { ColoringFormat } from './../formatModel';
+import { PolygonFormat } from "../formatModel";
+import { MapView, PolygonModel } from "../models";
+import { ColorGeneration } from "./colorGeneration";
+import powerbi from "powerbi-visuals-api";
+import ISelectionManager = powerbi.extensibility.ISelectionManager;
+import { ColumnView } from "../columnView";
+
+export class PolygonService {
+    
     private readonly _strokeThicknessDefault: number;
-    private readonly colorGeneration: ColoringGeneration;
+    private readonly selectionManager: ISelectionManager;
 
-    constructor(colorGeneration: ColoringGeneration) {
-        this.colorGeneration = colorGeneration;
+    constructor(selectionManager: ISelectionManager) {
         this._strokeThicknessDefault = 2
+        this.selectionManager = selectionManager;
     }
 
-    public draw(data: MapView[], format: PolygonFormat): PolygonModel[] {
+    public draw(data: MapView[], format: PolygonFormat, polygonColoring: ColoringFormat): PolygonModel[] {   
+        let colorGeneration = this.getColorGenerator(data, polygonColoring);
         let strokeThickness = format.showline ? this._strokeThicknessDefault : 0;
-        return data.filter(x => x.Polygon).map(item => this.createPolygon(item, format, strokeThickness));
+        return data.filter(x => x.Polygon).map(item => this.createPolygon(item, format, strokeThickness, colorGeneration));
     }
 
-    private createPolygon(item: MapView, format: PolygonFormat, strokeThickness: number): PolygonModel {
+    private getColorGenerator(data: MapView[], polygonColoring: ColoringFormat): ColorGeneration {
+        let colorValues = data.map(x => Number(x[ColumnView.PolygonColor])).filter(x => !isNaN(x));
+        return new ColorGeneration(polygonColoring, colorValues);
+    }
+
+    private createPolygon(item: MapView, format: PolygonFormat, strokeThickness: number, colorGeneration: ColorGeneration): PolygonModel {
         const polygonColor = item.PolygonColor || format.color;
         const polygon = Microsoft.Maps.WellKnownText.read(item.Polygon, {
             polygonOptions: {
-                strokeColor: this.colorGeneration.getColor(polygonColor),
+                strokeColor: colorGeneration.getColor(polygonColor),
                 strokeThickness: strokeThickness,
-                fillColor: this.colorGeneration.getColor(polygonColor, format.transparency)
+                fillColor: colorGeneration.getColor(polygonColor, format.transparency)
             }
         }) as Microsoft.Maps.Polygon;
+
+        Microsoft.Maps.Events.addHandler(polygon, 'click', () => 
+        {
+            this.selectionManager.select(item.SelectionId)
+        });
         return { data: item, polygon: polygon };
     }
 
-    public darwLabel(data: PolygonModel[]): Microsoft.Maps.Pushpin[]{
+    public drawLabel(data: PolygonModel[]): Microsoft.Maps.Pushpin[]{
         return data.map(item => {
-            return this.addLabelToPolygon(item.polygon, item.data.PolygonCategory.toString())
+            return this.addLabelToPolygon(item, item.data.PolygonCategory.toString())
         });
     }
 
-    private addLabelToPolygon(polygon: Microsoft.Maps.Polygon, label: string): Microsoft.Maps.Pushpin {
-        var centroid = Microsoft.Maps.SpatialMath.Geometry.centroid(polygon);
+    private addLabelToPolygon(polygon: PolygonModel, label: string): Microsoft.Maps.Pushpin {
+        var centroid = Microsoft.Maps.SpatialMath.Geometry.centroid(polygon.polygon);
         //Create a pushpin that has a transparent icon and a title property set to the label value.
         var labelPin = new Microsoft.Maps.Pushpin(centroid, {
             icon: '<svg xmlns="http://www.w3.org/2000/svg" width="1" height="1"></svg>',
@@ -39,12 +59,18 @@ class PolygonService {
         });
 
         //Store a reference to the label pushpin in the polygon metadata.
-        polygon.metadata = { 
+        polygon.polygon.metadata = { 
             label: labelPin, 
             textColor: 'red',
             fontSize: 18,
             fontFamily: 'Arial'
         };
+
+        Microsoft.Maps.Events.addHandler(labelPin, 'click', () => 
+        {
+            this.selectionManager.select(polygon.data.SelectionId)
+        });
+
         return labelPin;
     }
 }

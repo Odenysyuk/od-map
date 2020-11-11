@@ -1,32 +1,39 @@
-class MapView {
+"use strict";
+import powerbi from "powerbi-visuals-api";
+import { ColumnView } from "./columnView";
+import ISelectionIdBuilder = powerbi.visuals.ISelectionIdBuilder;
+
+export class MapView {
     public Category: DataLabel;
     public Linestring: string = "";
     public Size: number = 0;
     public LineColor: string = "";
+    public IconUrl: string = "";
     public PolygonCategory: DataLabel;
     public Polygon: string = "";
     public PolygonColor: string = "";
     public Tooltip: DataLabel;
     public DataLabel: DataLabel;
     public IsLineOverlapsPolygon: boolean;
+    public SelectionId: ISelectionIdBuilder
 }
 
-class LocationModel {
+export class LocationModel {
     public location: Microsoft.Maps.Location | Microsoft.Maps.Location[];
     public data: MapView;
 }
 
-class PolylineModel {
+export class PolylineModel {
     public polyline: Microsoft.Maps.Polyline;
     public data: MapView
 }
 
-class PolygonModel {
+export class PolygonModel {
     public polygon: Microsoft.Maps.Polygon;
     public data: MapView
 }
 
-class DataLabel{
+export class DataLabel{
     public fieldName: string;
     public value: any;
 

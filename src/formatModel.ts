@@ -1,9 +1,10 @@
+"use strict";
 
-interface LineFormat  extends ColoringFormat { 
+export interface LineFormat  extends ColoringFormat { 
     transparency: number;
 }
 
-interface ColoringFormat { 
+export interface ColoringFormat { 
     minColor: string;
     centerColor: string;
     maxColor: string;
@@ -12,7 +13,7 @@ interface ColoringFormat {
     colorMaxValue: number;
 }
 
-interface TextLabelFormat {
+export interface TextLabelFormat {
     show: boolean;
     fontType: string;
     fontSize: number;
@@ -20,32 +21,38 @@ interface TextLabelFormat {
     textAlignment: string;
 }
 
-interface MapLayerFormat {
+export interface MapLayerFormat {
     type: string;
 }
 
-interface PolygonFormat {
+export interface PolygonFormat {
     show: boolean;
     showline: boolean;
     color: string;
     transparency: number;
 }
 
-interface NodeFormat {    
+export interface NodeFormat {    
     transparency: number;
     showNodeLine: boolean;
 }
 
-interface NodeSizeFormat {
+export interface NodeSizeFormat {
     show: boolean;
     changedSize: boolean; 
     minValue: number;
     maxValue: number;
 }
 
-interface VisualFormat {
+export interface ZoomFormat {
+    show: boolean;
+    value: number;
+}
+
+export interface VisualFormat {
     category: TextLabelFormat;
     mapLayers: MapLayerFormat;
+    mapZoom: ZoomFormat;
     lineColoring: LineFormat;
     node: NodeFormat;
     oridinNode: NodeSizeFormat;
@@ -56,7 +63,7 @@ interface VisualFormat {
     dataLabel: TextLabelFormat;
 } 
 
-interface DrawVisualFormat {
+export interface DrawVisualFormat {
     reDrawPolyline?: boolean;
     reDrawCategory?: boolean;
     reDrawMapLayers: boolean;
